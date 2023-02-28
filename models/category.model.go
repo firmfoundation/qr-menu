@@ -14,7 +14,7 @@ type Category struct {
 	UpdatedAt time.Time
 }
 
-func (s *Category) SaveCategory(db *gorm.DB) (*Category, error) {
+func (s *Category) CreateCategory(db *gorm.DB) (*Category, error) {
 
 	var err error
 	err = db.Debug().Create(&s).Error

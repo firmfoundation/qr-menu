@@ -3,6 +3,9 @@ package util
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 type ClientError interface {
@@ -48,4 +51,13 @@ func CustomeError(err error, status int, detail string) error {
 		Detail: detail,
 		Status: status,
 	}
+}
+
+func AppPath() string {
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	return filepath.Dir(ex)
 }
