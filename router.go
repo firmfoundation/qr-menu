@@ -48,6 +48,7 @@ func router() http.Handler {
 
 		// profile
 		r.Method("POST", "/admin/profiles", Handler(handles.HandleCreateProfile))
+		r.Method("GET", "/admin/profiles", Handler(handles.HandleGetProfileByAccount))
 
 		//category
 		r.Method("POST", "/admin/categories", Handler(handles.HandleCreateCategory))

@@ -31,3 +31,21 @@ func HandleCreateProfile(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
+
+func HandleGetProfileByAccount(w http.ResponseWriter, r *http.Request) error {
+	if r.Method != http.MethodGet {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	account_id := r.URL.Query().Get("account_id")
+	profile := &models.Profile{}
+	result, err := profile.GetProfileByAccount(initdb.DB, account_id)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: unable to Get profile data.")
+	}
+
+	w.WriteHeader(http.StatusAccepted)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+	return nil
+}

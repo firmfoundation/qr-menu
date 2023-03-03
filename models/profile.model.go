@@ -29,3 +29,13 @@ func (p *Profile) CreateProfile(db *gorm.DB) (*Profile, error) {
 	}
 	return p, nil
 }
+
+func (p *Profile) GetProfileByAccount(db *gorm.DB, account_id string) (*[]Profile, error) {
+	var err error
+	profile := []Profile{}
+	err = db.Where("account_id = ?", account_id).Limit(1).Find(&profile).Error
+	if err != nil {
+		return &[]Profile{}, err
+	}
+	return &profile, err
+}
