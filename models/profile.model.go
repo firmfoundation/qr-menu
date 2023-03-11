@@ -30,6 +30,15 @@ func (p *Profile) CreateProfile(db *gorm.DB) (*Profile, error) {
 	return p, nil
 }
 
+func (p *Profile) UpsertProfile(db *gorm.DB) (*Profile, error) {
+	var err error
+	err = db.Debug().Save(&p).Error
+	if err != nil {
+		return &Profile{}, err
+	}
+	return p, nil
+}
+
 func (p *Profile) GetProfileByAccount(db *gorm.DB, account_id string) (*[]Profile, error) {
 	var err error
 	profile := []Profile{}

@@ -41,13 +41,14 @@ func router() http.Handler {
 	r.Group(func(r chi.Router) {
 		//r.Method("GET", "/", Handler(Index))
 		//r.Method("GET", "/admin", Handler(IndexAdmin))
+		r.Method("GET", "/admin", Handler(handles.HandleAdminTemplate))
 
 		//account
 		r.Method("POST", "/accounts", Handler(handles.HandleCreateAccount))
 		r.Method("GET", "/accounts/menus", Handler(handles.HandleGetMenuByAccountId))
 
 		// profile
-		r.Method("POST", "/admin/profiles", Handler(handles.HandleCreateProfile))
+		r.Method("POST", "/admin/profiles", Handler(handles.HandleUpsertProfile))
 		r.Method("GET", "/admin/profiles", Handler(handles.HandleGetProfileByAccount))
 
 		//category
