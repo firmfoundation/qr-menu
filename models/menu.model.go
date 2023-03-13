@@ -12,6 +12,7 @@ type Menu struct {
 	Name        string    `json:"name" gorm:"type:varchar(255);not null"`
 	Description string    `json:"description" gorm:"type:varchar(255);not null"`
 	Price       float32   `json:"price"`
+	Image       string    `json:"image"`
 	CategoryID  uuid.UUID `json:"category_id" gorm:"type:uuid;default:uuid_generate_v4();not null"`
 	Category    Category  `json:"category"`
 	AccountID   uuid.UUID `json:"account_id" gorm:"type:uuid;default:uuid_generate_v4();not null"`
@@ -31,8 +32,7 @@ func (m *Menu) CreateMenu(db *gorm.DB) (*Menu, error) {
 
 func (m *Menu) GetMenuByAccountId(db *gorm.DB, account_id string) []map[string]interface{} {
 	var r []map[string]interface{}
-	sql := `select c.name as category,m.name, m.description, m.price,
-	a.email
+	sql := `select m.id, c.name as category,m.name, m.description, m.price, m.image
 	from menus as m
 	inner join categories as c on m.category_id=c.id
 	inner join accounts as a on m.account_id=a.id 
