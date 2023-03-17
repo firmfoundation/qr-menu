@@ -8,7 +8,7 @@ import (
 )
 
 type Menu struct {
-	ID          uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
+	ID          uuid.UUID `json:"id" gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
 	Name        string    `json:"name" gorm:"type:varchar(255);not null"`
 	Description string    `json:"description" gorm:"type:varchar(255);not null"`
 	Price       float32   `json:"price"`
@@ -23,7 +23,7 @@ type Menu struct {
 
 func (m *Menu) CreateMenu(db *gorm.DB) (*Menu, error) {
 	var err error
-	err = db.Debug().Create(&m).Error
+	err = db.Debug().Save(&m).Error
 	if err != nil {
 		return &Menu{}, err
 	}
@@ -32,12 +32,24 @@ func (m *Menu) CreateMenu(db *gorm.DB) (*Menu, error) {
 
 func (m *Menu) GetMenuByAccountId(db *gorm.DB, account_id string) []map[string]interface{} {
 	var r []map[string]interface{}
-	sql := `select m.id, c.name as category,m.name, m.description, m.price, m.image
+	sql := `select m.id, c.name as category,m.name, m.description, m.price, m.image, c.id as category_id
 	from menus as m
 	inner join categories as c on m.category_id=c.id
 	inner join accounts as a on m.account_id=a.id 
 	where a.id=?
 	order by c.name`
 	db.Debug().Raw(sql, account_id).Limit(100).Find(&r)
+	return r
+}
+
+func (m *Menu) GetMenuByQR(db *gorm.DB, qr string) []map[string]interface{} {
+	var r []map[string]interface{}
+	sql := `select m.id, c.name as category,m.name, m.description, m.price, m.image
+	from menus as m
+	inner join categories as c on m.category_id=c.id
+	inner join accounts as a on m.account_id=a.id 
+	where a.qr=?
+	order by c.name`
+	db.Debug().Raw(sql, qr).Limit(100).Find(&r)
 	return r
 }

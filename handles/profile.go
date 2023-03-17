@@ -43,7 +43,8 @@ func HandleUpsertProfile(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return util.CustomeError(nil, 500, "Error: parsing in one or more submitted body fields.")
 	}
-	s, err := profile.UpsertProfile(initdb.DB)
+
+	s, err := profile.UpdateProfile(initdb.DB)
 	if err != nil {
 		return util.CustomeError(nil, 500, "Error: unable to create profile data.")
 	}

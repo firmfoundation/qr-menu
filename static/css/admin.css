@@ -465,12 +465,14 @@ main.l-main .content-wrapper .page-content {
   border-top: 1px solid #d0d0d0;
   padding-top: 25px;
   color: #ababab;
+  margin-bottom: 15px;
 }
 main.l-main .content-wrapper--with-bg .page-content {
   background: #fff;
   border-radius: 3px;
   border: 1px solid #d0d0d0;
   padding: 25px;
+  margin-bottom: 15px;
 }
 main.l-main .page-title {
   font-weight: 400;

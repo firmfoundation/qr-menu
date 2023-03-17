@@ -89,7 +89,8 @@
                 $( document ).ready(function() {
                     let uid = getid()
                     $.ajax({
-                        url: `/accounts/menus?account_id=${uid}`,
+                        //url: `/accounts/menus?account_id=${uid}`,
+                        url: `/accounts/menus/qr?qr=${uid}`,
                         type: 'GET',
                         contentType: 'application/json',
                         success: function (response) {
