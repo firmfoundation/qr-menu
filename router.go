@@ -42,6 +42,7 @@ func router() http.Handler {
 		//r.Method("GET", "/", Handler(Index))
 		//r.Method("GET", "/admin", Handler(IndexAdmin))
 		r.Method("GET", "/admin", Handler(handles.HandleAdminTemplate))
+		r.Method("GET", "/login", Handler(handles.HandleLoginTemplate))
 
 		//account
 		r.Method("POST", "/accounts", Handler(handles.HandleCreateAccount))
