@@ -11,7 +11,7 @@ body {
 body:before,
 body:after {
   content: "";
-  background: url(https://images.unsplash.com/photo-1599229809585-f92ea053b547?w=1950&q=80)
+  background: url('../img/photo-1599229809585-f92ea053b547.jpeg')
     no-repeat center 32%;
   background-size: cover;
   width: 100vw;
@@ -37,7 +37,7 @@ body:after {
 
 .content:before {
   content: "";
-  background: url(https://www.toptal.com/designers/subtlepatterns/uploads/ep_naturalwhite.png);
+  background: url('../img/bg-white.png');
   width: 100%;
   height: 100%;
   position: absolute;
@@ -46,6 +46,18 @@ body:after {
   z-index: -1;
   filter: invert(1);
   opacity: 0.9;
+}
+
+p.name-lg {
+  font-size: 50px;
+  margin-top: 50px;
+  text-shadow: 0px 0px 5px #fff;
+  font-family: "Londrina Solid", Arial, Helvetica, sans-serif;
+  color: #fff;
+  font-weight: normal;
+  padding-top: 0.15em;
+  text-align: center;
+  line-height: 1em;
 }
 
 h1 {
@@ -64,7 +76,7 @@ h1:before {
   width: 1.25em;
   height: 1.25em;
   position: relative;
-  background: url(https://images.unsplash.com/photo-1579992357154-faf4bde95b3d?w=300&q=80)
+  background: url('../img/coffee.jpeg')
     no-repeat center center;
   background-size: cover;
   border-radius: 100% 100% 10% 100%;
@@ -124,11 +136,9 @@ address a {
 svg {
   padding: 0.25em;
   background: #0067ff;
-  border-radius: 100% 100% 0 100%;
+  border-radius: 100% 100% 100% 100%;
   transform: rotate(-10deg) translateY(-0.35em);
   border: 3px solid #fff;
-  position: absolute;
-  left: 0;
 }
 
 table.hours {
@@ -392,7 +402,7 @@ p.tip:before {
 
   address svg {
     border: 0;
-    margin-top: 0.15em;
+    margin-top: 0.4em;
   }
 
   body:before,

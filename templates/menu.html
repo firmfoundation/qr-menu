@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menu</title>
+    <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
+    <title>menuchaka</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   
@@ -54,24 +53,24 @@
     </thead>
     <tbody>
       <tr>
-        <td>Mon. - Thurs.</td>
-        <td>6 a.m. - 9 p.m.</td>
+        <td>Mon. - Thurs. 6 a.m. - 9 p.m.</td>
+      
       </tr>
       <tr>
-        <td>Fri. - Sat.</td>
-        <td>6 a.m. - 11 p.m.</td>
+        <td>Fri. - Sat. 6 a.m. - 11 p.m.</td>
+      
       </tr>
       <tr>
-        <td>Sunday</td>
-        <td>8 a.m. - 2 p.m.</td>
+        <td>Sunday 8 a.m. - 2 p.m.</td>
+      
       </tr>
     </tbody>
   </table>
 
-</div>
+</div>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-        <script src="/static/js/p.js"></script>
+        
         <script>
             var id;
             function getid() {
@@ -102,7 +101,7 @@
                         }
                     })
                     $.ajax({
-                        url: `/admin/profiles?account_id=${uid}`,
+                        url: `/profiles/qr?qr=${uid}`,
                         type: 'GET',
                         contentType: 'application/json',
                         success: function (response) {
@@ -131,26 +130,61 @@
                       $(li).append(
                         `
                         <h2>${value.category}</h2>
-                        <p class="prices"><span>Small<em>$2</em></span> <span>Large<em>$4</em></span></p>
                         `
                       );
                       
                       dl = document.createElement('dl');
                     }
                     c = value.category;
+                    if (value.price_s == value.price_l) {
+                      $(dl).append(
+                        `
+                        <dt>${value.name}</dt>
+                        <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
+                        <dd class="description">
+                          <p>${value.description}</p>
+                        </dd>
+                        `
+                      );                    
+                    } else {
+                      $(dl).append(
+                        `
+                        <dt>${value.name}</dt>
+                        <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
+                        <dd class="description">
+                          <p>${value.description}</p>
+                        </dd>
+                        `
+                      );
+                    }
 
-                    $(dl).append(
-                      `
-                      <dt>${value.name}</dt>
-                      <dd class="description">
-                        <p>${value.description}</p>
-                      </dd>
-                      `
-                    );
                 });
                 $(li).append(dl)
                 $(ul).append(li)  
                 $(".menu").append(ul)
+            }
+
+            const rProfile = (j) => {
+              $(".bname").append(`<p class="name-lg">${j.business_name}</h2>`)
+              $(".badd").append(
+                `
+                    <address>
+                        <p>
+                        <svg viewBox="0 -100 500 512" width="20" title="map-marker-alt">
+                            <path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z" transform="rotate(-20)" />
+                        </svg>
+                        ${j.address}
+                        </p>
+
+                        <a href="4125550100">
+                        <svg viewBox="-200 50 600 600" width="20" title="phone-alt">
+                            <path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z" transform="rotate(25)" />
+                        </svg>
+                        ${j.mobile}
+                        </a>
+                    </address>
+                `
+                )
             }
 
             function getURL () {

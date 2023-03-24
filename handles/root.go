@@ -1,7 +1,6 @@
 package handles
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -9,13 +8,9 @@ import (
 	"path/filepath"
 
 	"github.com/firmfoundation/qrmenu/util"
-	"github.com/go-chi/jwtauth"
 )
 
-func HandleAdminTemplate(w http.ResponseWriter, r *http.Request) error {
-	_, claims, _ := jwtauth.FromContext(r.Context())
-	fmt.Println("--------------->", claims["account_id"])
-
+func HandleRootTemplate(w http.ResponseWriter, r *http.Request) error {
 	ex, err := os.Executable()
 
 	if err != nil {
@@ -27,7 +22,7 @@ func HandleAdminTemplate(w http.ResponseWriter, r *http.Request) error {
 		return util.CustomeError(nil, 405, "Error: Method not allowed.")
 	}
 
-	t, _ := template.ParseFiles(exPath + "/templates/admin.html")
+	t, _ := template.ParseFiles(exPath + "/templates/root.html")
 	t.Execute(w, "")
 	return nil
 }

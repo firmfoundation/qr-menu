@@ -93,10 +93,11 @@ const pMenu = () => {
 
 const pQR = () => {
   $(".page-title").empty()
-  $(".page-title").append("QR")
+  $(".page-title").append("QR Menu")
   $(".content").empty()
 
-  qrInit()
+  menuInit()
+  recInit()
 }
 
 const menuInit = () => {
@@ -108,53 +109,6 @@ const menuInit = () => {
     `
   )
   $(".content").html(div_menu_pan)
-}
-
-const qrInit = () => {
-  let div_pan = document.createElement('div');
-  $(div_pan).addClass('div-pan page-content')
-  $(div_pan).append(
-    `
-    <button type="button" class="button-md" id="btn-create" onClick="GenQR();">Generate QR</button>
-    `
-  )
-  $(".content").html(div_pan)
-}
-
-const btnD = () => {
-  let div_d = document.createElement('div');
-  $(div_d).addClass('div-d page-content')
-  $(div_d).append(
-    `
-    <button type="button" class="button-md" id="btn-download">Download</button>
-    `
-  )
-  $(".content").append(div_d)
-}
-
-const downloadQR = () => {
-  $('#btn-download').click(function () {
-    var link = document.createElement('a');
-    link.href = $('#qr-menu').attr('src'); 
-    link.download = 'qr_menu.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  })
-}
-
-const qrImg = (b) => {
-  let div_img = document.createElement('div');
-  $(div_img).addClass('div-img page-content')
-  $(div_img).append(
-    `
-    <img src=" ${b}" class="rounded" id="qr-menu" height="350px">
-    `
-  )
-  $(".content").html(div_img)
-
-  btnD()
-  downloadQR()
 }
 
 const recInit = () => {
@@ -216,24 +170,6 @@ const getMenu = () => {
   })             
 } 
 
-const GenQR = () => {
-  $.ajax({
-    url: 'admin/menus/qr',
-    type: 'GET',
-    contentType: 'application/json',
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
-    },
-    success: function (res) {
-      qrImg(res)
-    },
-    error: function (response) {
-        //console.log(response)
-    }
-  })             
-} 
-
 const getProfile = () => {
   $.ajax({
     url: '/admin/profiles',
@@ -254,8 +190,8 @@ const getProfile = () => {
     }
   })             
 } 
-const um = (p1, p2, p3, p4, p5, p6) => {
-  formMu($(".div-menu-pan"), p1, p2, p3, p4, p5, p6)
+const um = (p1, p2, p3, p4, p5) => {
+  formMu($(".div-menu-pan"), p1, p2, p3, p4, p5)
 }
 
 const dm = (id) => {
@@ -274,10 +210,9 @@ const renderMenu = (s) => {
             <td>${v.category}</td>
             <td>${v.name}</td>
             <td>${v.description}</td>
-            <td>${v.price_s}</td>
-            <td>${v.price_l}</td>
+            <td>${v.price}</td>
             <td>
-              <i class="bi bi-pencil-square" onClick="um('${v.id}','${v.name}', '${clean(v.description)}', '${v.price_s}','${v.price_l}', '${v.category_id}');" style="font-size: 15px; color: green;" title="edit"></i>
+              <i class="bi bi-pencil-square" onClick="um('${v.id}','${v.name}', '${clean(v.description)}', '${v.price}', '${v.category_id}');" style="font-size: 15px; color: green;" title="edit"></i>
               <i class="bi bi-trash3" style="font-size: 15px; color: red;" title="edit"></i>
             </td>
           </tr>`
@@ -292,8 +227,7 @@ const renderMenu = (s) => {
             <th scope="col">Category</th>
             <th scope="col">Item name</th>
             <th scope="col">Description</th>
-            <th scope="col">Price (small)</th>
-            <th scope="col">Price (large)</th>
+            <th scope="col">Price</th>
             <th scope="col">Action</th>
           </tr>
         </thead>`
@@ -324,19 +258,13 @@ const formMenu = async () => {
               <div class="field-wrap">
                   <input type="text" class="input-s" id="m-desc" value="" size="10" required>
                   <label class="label-s" for="question" >Description</label>
-                  <div class="invalid-feedback">description required </div>
+                  <div class="invalid-feedback">menu description required </div>
               </div>
 
               <div class="field-wrap">
-                  <input type="text" class="input-s" id="m-price-s" value="" size="10" required>
-                  <label class="label-s" for="question" class="form-label">Price (for small size)</label>
-                  <div class="invalid-feedback">price for small size is required </div>
-              </div>
-
-              <div class="field-wrap">
-                  <input type="text" class="input-s" id="m-price-l" value="" size="10" required>
-                  <label class="label-s" for="question" class="form-label">Price (for large size)</label>
-                  <div class="invalid-feedback">price for large size is required </div>
+                  <input type="text" class="input-s" id="m-price" value="" size="10" required>
+                  <label class="label-s" for="question" class="form-label">Price</label>
+                  <div class="invalid-feedback">menu price required </div>
               </div>
 
               <div class="mt-3">
@@ -354,7 +282,7 @@ const formMenu = async () => {
   }
 }
 
-const formMu = async (tag, p1, p2, p3, p4, p5, p6) => {
+const formMu = async (tag, p1, p2, p3, p4, p5) => {
   $(tag).empty();
   $(tag).append(`
           <h5 class="card-title mb-3">Update menu item</h5>
@@ -376,15 +304,9 @@ const formMu = async (tag, p1, p2, p3, p4, p5, p6) => {
               </div>
 
               <div class="field-wrap">
-                  <input type="text" class="input-s" id="m-price-s" value="${p4}" size="10" required>
-                  <label class="label-s" for="question" class="form-label">Price (small size)</label>
-                  <div class="invalid-feedback">menu price for small size is required </div>
-              </div>
-
-              <div class="field-wrap">
-                  <input type="text" class="input-s" id="m-price-l" value="${p5}" size="10" required>
-                  <label class="label-s" for="question" class="form-label">Price (large size)</label>
-                  <div class="invalid-feedback">menu price for large size is required </div>
+                  <input type="text" class="input-s" id="m-price" value="${p4}" size="10" required>
+                  <label class="label-s" for="question" class="form-label">Price</label>
+                  <div class="invalid-feedback">menu price required </div>
               </div>
 
               <div class="mt-3">
@@ -397,7 +319,7 @@ const formMu = async (tag, p1, p2, p3, p4, p5, p6) => {
   if(res != "") {
     var json = JSON.parse(res);
     listCategory(json)
-    $('.list-menu').val(p6);
+    $('.list-menu').val(p5);
   }
 }
 
@@ -450,8 +372,7 @@ const createMenu = () => {
       category_id: select_cat_value,
       name: $("#m-name").val(),
       description: $("#m-desc").val(),
-      price_s: Number($("#m-price-s").val()),
-      price_l: Number($("#m-price-l").val())
+      price: Number($("#m-price").val())
   };
 
   $.ajax({
@@ -487,8 +408,7 @@ const updateMenu = (id) => {
       category_id: select_cat_value,
       name: $("#m-name").val(),
       description: $("#m-desc").val(),
-      price_s: Number($("#m-price-s").val()),
-      price_l: Number($("#m-price-l").val()),
+      price: Number($("#m-price").val()),
       id
   };
 

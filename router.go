@@ -36,29 +36,37 @@ func router() http.Handler {
 		// Handle valid / invalid tokens.
 		r.Use(jwtauth.Authenticator)
 
-	})
-
-	r.Group(func(r chi.Router) {
-		//r.Method("GET", "/", Handler(Index))
-		//r.Method("GET", "/admin", Handler(IndexAdmin))
-		r.Method("GET", "/admin", Handler(handles.HandleAdminTemplate))
-		r.Method("GET", "/login", Handler(handles.HandleLoginTemplate))
-
-		//account
-		r.Method("POST", "/accounts", Handler(handles.HandleCreateAccount))
+		r.Method("GET", "/dashboard", Handler(handles.HandleAdminTemplate))
 		r.Method("GET", "/accounts/menus", Handler(handles.HandleGetMenuByAccountId))
-		r.Method("GET", "/accounts/menus/qr", Handler(handles.HandleGetMenuByQR))
+
+		//create menu
+		r.Method("POST", "/admin/menus", Handler(handles.HandleUpsertMenu))
 
 		// profile
 		r.Method("POST", "/admin/profiles", Handler(handles.HandleUpsertProfile))
 		r.Method("GET", "/admin/profiles", Handler(handles.HandleGetProfileByAccount))
 
+		//QR
+		r.Method("GET", "/admin/menus/qr", Handler(handles.HandleGenQR))
+	})
+
+	r.Group(func(r chi.Router) {
+		//r.Method("GET", "/", Handler(Index))
+		//r.Method("GET", "/admin", Handler(IndexAdmin))
+		r.Method("GET", "/admin", Handler(handles.HandleRootTemplate))
+		r.Method("GET", "/login", Handler(handles.HandleLoginTemplate))
+
+		//account
+		r.Method("POST", "/accounts", Handler(handles.HandleCreateAccount))
+		r.Method("POST", "/accounts/authenticate", Handler(handles.HandleAuthenticateAccount))
+
+		r.Method("GET", "/accounts/menus/qr", Handler(handles.HandleGetMenuByQR))
+		//profile
+		r.Method("GET", "/profiles/qr", Handler(handles.HandleGetProfileByQR))
+
 		//category
 		r.Method("POST", "/admin/categories", Handler(handles.HandleCreateCategory))
 		r.Method("GET", "/admin/categories", Handler(handles.HandleGetAllCategory))
-
-		//menu
-		r.Method("POST", "/admin/menus", Handler(handles.HandleCreateMenu))
 
 		r.Method("GET", "/menus/{uid}", Handler(handles.MenuTemplate))
 	})
