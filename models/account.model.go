@@ -50,6 +50,17 @@ type Account struct {
 	UpdatedAt time.Time
 }
 
+type ChangePassword struct {
+	ID        uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
+	Email     string    `json:"email" gorm:"type:varchar(255);not null;"`
+	JWT       string    `json:"jwt"`
+	AccountID uuid.UUID `json:"account_id" gorm:"type:uuid;default:uuid_generate_v4();not null"`
+	Account   Account   `json:"account"`
+	Status    int       `json:"status" gorm:"type:int;default:0"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
 func (a *Account) GetAccountById(db *gorm.DB) (*Account, error) {
 	var err error
 	account := Account{}
@@ -105,6 +116,94 @@ func (a *Account) AuthenticateAccount(db *gorm.DB) (auth.Jwt, error) {
 
 	au := auth.Auth{}
 	jwt, err := au.GetJwt(db_account.ID.String())
+	if err != nil {
+		return auth.Jwt{}, err
+	}
+	return auth.Jwt{JWT: jwt}, nil
+}
+
+func (c *ChangePassword) ChangePasswordRequest(db *gorm.DB) (*ChangePassword, error) {
+
+	err := db.Transaction(func(tx *gorm.DB) error {
+		// do some database operations in the transaction (use 'tx' from this point, not 'db')
+		var err error
+
+		//tx 1 check if email exits
+		account := Account{}
+		if err = tx.Where("email = ?", c.Email).First(&account).Error; err != nil {
+			return err
+		}
+
+		//tx - 2 create the change password request for the email  - Last call QR service do it.
+		/*
+		  generate JWT, client will use this and we control the expire by the jwt
+		  jwt expires after 5 min * not done
+		*/
+		au := auth.Auth{}
+		jwt, err := au.GetJwt(account.ID.String())
+		fmt.Println("8888888888888888888888", jwt)
+		if err != nil {
+			return err
+		}
+		c.JWT = jwt
+
+		/* include account id */
+		c.AccountID = account.ID
+
+		if err = tx.Debug().Create(&c).Error; err != nil {
+			// return any error will rollback
+			return err
+		}
+
+		// return nil will commit the whole transaction
+		return nil
+	})
+
+	if err != nil {
+		return &ChangePassword{}, err
+	}
+
+	return c, nil
+}
+
+func (a *Account) ChangeAccountPassword(db *gorm.DB, jwt_token string) (auth.Jwt, error) {
+
+	err := db.Transaction(func(tx *gorm.DB) error {
+		//Transaction started
+		var err error
+
+		//hash password
+		pass := []byte(a.Password)
+		hash, err := bcrypt.GenerateFromPassword(pass, bcrypt.DefaultCost)
+		if err != nil {
+			return err
+		}
+
+		//update pass
+		a.Password = string(hash)
+
+		//tx 1 update account password (account id is used by gorm during the update)
+		if err = tx.Model(&a).Update("password", a.Password).Error; err != nil {
+			return err
+		}
+
+		//tx - 2 update changepassword request status using jwt status 2 = change request is used 3 = expired
+		c := ChangePassword{}
+		if err = tx.Model(&c).Where("jwt = ?", jwt_token).Update("status", 2).Error; err != nil {
+			return err
+		}
+
+		// return nil will commit the whole transaction
+		return nil
+	})
+
+	if err != nil {
+		return auth.Jwt{}, err
+	}
+
+	//send jwt
+	au := auth.Auth{}
+	jwt, err := au.GetJwt(a.ID.String())
 	if err != nil {
 		return auth.Jwt{}, err
 	}

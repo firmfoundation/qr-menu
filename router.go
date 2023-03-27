@@ -38,6 +38,7 @@ func router() http.Handler {
 
 		r.Method("GET", "/dashboard", Handler(handles.HandleAdminTemplate))
 		r.Method("GET", "/accounts/menus", Handler(handles.HandleGetMenuByAccountId))
+		r.Method("POST", "/accounts/changepasswords/change", Handler(handles.HandleAccountChangePassword))
 
 		//create menu
 		r.Method("POST", "/admin/menus", Handler(handles.HandleUpsertMenu))
@@ -55,10 +56,13 @@ func router() http.Handler {
 		//r.Method("GET", "/admin", Handler(IndexAdmin))
 		r.Method("GET", "/admin", Handler(handles.HandleRootTemplate))
 		r.Method("GET", "/login", Handler(handles.HandleLoginTemplate))
+		r.Method("GET", "/cp-req", Handler(handles.HandleCPRequestTemplate))
+		r.Method("GET", "/cp/{jwt}", Handler(handles.HandleCPTemplate))
 
 		//account
 		r.Method("POST", "/accounts", Handler(handles.HandleCreateAccount))
 		r.Method("POST", "/accounts/authenticate", Handler(handles.HandleAuthenticateAccount))
+		r.Method("POST", "/accounts/changepasswords/request", Handler(handles.HandleChangePasswordRequest))
 
 		r.Method("GET", "/accounts/menus/qr", Handler(handles.HandleGetMenuByQR))
 		//profile
@@ -69,6 +73,7 @@ func router() http.Handler {
 		r.Method("GET", "/admin/categories", Handler(handles.HandleGetAllCategory))
 
 		r.Method("GET", "/menus/{uid}", Handler(handles.MenuTemplate))
+
 	})
 
 	//public folder for assets

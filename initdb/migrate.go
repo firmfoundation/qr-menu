@@ -9,6 +9,7 @@ import (
 func Migrate() {
 	DB.AutoMigrate(
 		&models.Account{},
+		&models.ChangePassword{},
 		&models.Profile{},
 		&models.Category{},
 		&models.Menu{},
