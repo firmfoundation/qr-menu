@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/firmfoundation/qrmenu/initdb"
 )
@@ -10,7 +12,14 @@ import (
 var port string = ":5055"
 
 func init() {
-	conf, err := initdb.LoadConfig("app.env")
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	conf, err := initdb.LoadConfig(exPath + "/app.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")

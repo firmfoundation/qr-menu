@@ -2,6 +2,8 @@ package util
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 
 	"net/smtp"
 
@@ -9,7 +11,14 @@ import (
 )
 
 func SendEmail(email_to string, link string) {
-	env, e := godotenv.Read("app.env")
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	env, e := godotenv.Read(exPath + "/app.env")
 	if e != nil {
 		log.Fatalf("Error loading .env file")
 	}
@@ -42,7 +51,7 @@ func SendEmail(email_to string, link string) {
 
 		env["EMAIL_RESET_DOMAIN"] + link)
 
-	err := smtp.SendMail("smtp.gmail.com:587", auth, env["EMAIL"], to, msg)
+	err = smtp.SendMail("smtp.gmail.com:587", auth, env["EMAIL"], to, msg)
 
 	if err != nil {
 
