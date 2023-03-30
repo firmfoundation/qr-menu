@@ -19,4 +19,6 @@ logs.txt
 .idea/
 secret.md
 app.env
+pgadmin.env
 qrmenu
+qrchaka

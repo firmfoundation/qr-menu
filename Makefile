@@ -18,7 +18,7 @@ service:
 	@echo "creating service config file"
 	> ${SERVICE_CONFIG_FILE}
 	echo "[Unit]" >> ${SERVICE_CONFIG_FILE}
-	echo "Description=qrcode" >> ${SERVICE_CONFIG_FILE}
+	echo "Description=qrchaka" >> ${SERVICE_CONFIG_FILE}
 	echo "[Service]" >> ${SERVICE_CONFIG_FILE}
 	echo "Type=simple" >> ${SERVICE_CONFIG_FILE}
 	echo "Restart=always" >> ${SERVICE_CONFIG_FILE}
