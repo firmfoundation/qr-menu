@@ -1,5 +1,5 @@
-BINARY_PATH=/var/apps/qrmenu
-BINARY_NAME=qrmenu
+BINARY_PATH=/var/apps/qrchaka
+BINARY_NAME=qrchaka
 SERVICE_CONFIG_FILE=/lib/systemd/system/${BINARY_NAME}.service
 
 # build : will build the app for linux
