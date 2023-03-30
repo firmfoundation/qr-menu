@@ -5,7 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/firmfoundation/qrmenu/initdb"
 	"github.com/firmfoundation/qrmenu/models"
@@ -14,6 +17,7 @@ import (
 	"github.com/go-chi/jwtauth"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
@@ -149,8 +153,18 @@ func HandleGenQR(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	//lets generate the QR png
-	//png, err := util.GenQR(a.QR, "http://chakamenu.com/menus/"+a.QR)
-	png, err := util.GenQR(a.QR, "http://192.168.1.5:5055/menus/"+a.QR)
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	env, e := godotenv.Read(exPath + "/app.env")
+	if e != nil {
+		log.Fatalf("Error loading .env file")
+	}
+	png, err := util.GenQR(a.QR, env["QR_MENU_PATH"]+"/"+a.QR)
 	//base64
 	b := "data:image/png;base64," + base64.StdEncoding.EncodeToString(png)
 
