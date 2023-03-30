@@ -21,12 +21,26 @@
   a:hover {
     color: #179b77;
   }
-  
+
+  .form-s {
+    position: fixed;
+    background: #e9ecef;
+    left: 50%;
+    top: 50%;
+    padding: 40px;
+    max-width: 600px;
+    min-width: 320px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+  }
+
   .form {
+    text-align: center;
+    vertical-align: middle;
     background: rgba(19, 35, 47, 0.9);
     padding: 40px;
     max-width: 600px;
-    margin: 180px auto;
+    margin: 170px 15px;
     border-radius: 4px;
     box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
   }
@@ -69,7 +83,7 @@
   
   h1 {
     text-align: center;
-    color: #ffffff;
+    color: #000000;
     font-weight: 300;
     margin: 0 0 40px;
   }
@@ -87,13 +101,13 @@
   
   label {
     position: absolute;
-    transform: translateY(6px);
+    transform: translateY(0px);
     left: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #adb5bd;
     transition: all 0.25s ease;
     -webkit-backface-visibility: hidden;
     pointer-events: none;
-    font-size: 22px;
+    font-size: 13px;
   }
   label .req {
     margin: 2px;
@@ -121,9 +135,10 @@
     padding: 5px 10px;
     background: none;
     background-image: none;
-    border: 1px solid #a0b3b0;
-    color: #ffffff;
+    border: 1px solid #000000;
+    color: #000000;
     border-radius: 0;
+    background-color: #ffffff;
     transition: border-color .25s ease, box-shadow .25s ease;
   }
   input:focus, textarea:focus {
@@ -215,7 +230,7 @@
   }
   
   .forgot {
-    margin-top: -20px;
+    margin-top: 20px;
     text-align: right;
   }
   

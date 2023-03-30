@@ -52,7 +52,7 @@ func router() http.Handler {
 	})
 
 	r.Group(func(r chi.Router) {
-		//r.Method("GET", "/", Handler(Index))
+		r.Method("GET", "/", Handler(handles.HandleRootIndexTemplate))
 		//r.Method("GET", "/admin", Handler(IndexAdmin))
 		r.Method("GET", "/admin", Handler(handles.HandleRootTemplate))
 		r.Method("GET", "/login", Handler(handles.HandleLoginTemplate))

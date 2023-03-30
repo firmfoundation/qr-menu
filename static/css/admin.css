@@ -498,3 +498,9 @@ main.l-main .page-title {
 .scrollme {
   overflow-x: auto;
 }
+
+.logo__img {
+  height: 30px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
