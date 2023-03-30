@@ -38,7 +38,7 @@ func GenQR(a string, l string) ([]byte, error) {
 		panic("qr coudl not be generated")
 	}
 
-	imgFile1, err := os.Open("qr-template.png")
+	imgFile1, err := os.Open(exPath + "/qr-template.png")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -65,7 +65,7 @@ func GenQR(a string, l string) ([]byte, error) {
 	draw.Draw(bgImg, img1.Bounds(), img1, image.Point{0, 0}, draw.Src)
 	draw.Draw(bgImg, dst.Bounds().Add(image.Pt((600-(dst.Rect.Dx()/2)), (900-(dst.Rect.Dy()/2)))), dst, image.Point{0, 0}, draw.Src)
 
-	out, err := os.Create("./qr-scan-outputs/" + a + ".png")
+	out, err := os.Create(exPath + "/qr-scan-outputs/" + a + ".png")
 	if err != nil {
 		fmt.Println(err)
 	}
