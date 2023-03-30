@@ -162,7 +162,7 @@ func HandleGenQR(w http.ResponseWriter, r *http.Request) error {
 
 	env, e := godotenv.Read(exPath + "/app.env")
 	if e != nil {
-		log.Fatalf("Error loading .env file")
+		return util.CustomeError(nil, 500, "Error: loading env file.")
 	}
 	png, err := util.GenQR(a.QR, env["QR_MENU_PATH"]+"/"+a.QR)
 	//base64
