@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/draw"
 	"image/png"
 	"io/ioutil"
@@ -10,8 +11,11 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/golang/freetype/truetype"
 	"github.com/skip2/go-qrcode"
 	d "golang.org/x/image/draw"
+	"golang.org/x/image/font"
+	"golang.org/x/image/math/fixed"
 )
 
 func GenQR(a string, l string) ([]byte, error) {
@@ -58,12 +62,15 @@ func GenQR(a string, l string) ([]byte, error) {
 	//rec := image.Rect(0, 0, 400, 400)
 
 	// Set the expected size that you want:
-	dst := resize(img2, image.Point{600, 600})
+	dst := resize(img2, image.Point{800, 800})
 
 	bgImg := image.NewRGBA(image.Rect(0, 0, 1200, 1800))
 
 	draw.Draw(bgImg, img1.Bounds(), img1, image.Point{0, 0}, draw.Src)
-	draw.Draw(bgImg, dst.Bounds().Add(image.Pt((600-(dst.Rect.Dx()/2)), (900-(dst.Rect.Dy()/2)))), dst, image.Point{0, 0}, draw.Src)
+	draw.Draw(bgImg, dst.Bounds().Add(image.Pt((580-(dst.Rect.Dx()/2)), (950-(dst.Rect.Dy()/2)))), dst, image.Point{0, 0}, draw.Src)
+
+	//text
+	addLabel(bgImg, 310, 1600, a)
 
 	out, err := os.Create(exPath + "/qr-scan-outputs/" + a + ".png")
 	if err != nil {
@@ -88,4 +95,26 @@ func resize(src image.Image, dstSize image.Point) *image.RGBA {
 	dst := image.NewRGBA(dstRect)
 	d.CatmullRom.Scale(dst, dstRect, src, srcRect, draw.Over, nil)
 	return dst
+}
+
+func addLabel(img *image.RGBA, x, y int, label string) {
+	col := color.RGBA{0, 0, 0, 255}
+	point := fixed.Point26_6{X: fixed.I(x), Y: fixed.I(y)}
+
+	// load font file and typeface
+	fontBytes, _ := ioutil.ReadFile("jiret.ttf")
+
+	f, _ := truetype.Parse(fontBytes)
+
+	opts := truetype.Options{}
+	opts.Size = 25
+	face := truetype.NewFace(f, &opts)
+
+	d := &font.Drawer{
+		Dst:  img,
+		Src:  image.NewUniform(col),
+		Face: face,
+		Dot:  point,
+	}
+	d.DrawString(label)
 }
