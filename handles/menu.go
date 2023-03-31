@@ -2,6 +2,7 @@ package handles
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"math"
@@ -91,6 +92,14 @@ func HandleGetMenuByQR(w http.ResponseWriter, r *http.Request) error {
 	qr := r.URL.Query().Get("qr")
 	menu := &models.Menu{}
 	result := menu.GetMenuByQR(initdb.DB, qr)
+
+	if len(result) > 0 {
+		t := &models.Tracking{
+			QR: qr,
+		}
+		fmt.Println("---------------------------------------- ", qr)
+		go t.CreateTracking(initdb.DB)
+	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")

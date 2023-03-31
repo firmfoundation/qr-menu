@@ -13,6 +13,7 @@ func Migrate() {
 		&models.Profile{},
 		&models.Category{},
 		&models.Menu{},
+		&models.Tracking{},
 	)
 
 	fmt.Println(" Migration complete")
