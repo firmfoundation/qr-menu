@@ -98,11 +98,17 @@ func resize(src image.Image, dstSize image.Point) *image.RGBA {
 }
 
 func addLabel(img *image.RGBA, x, y int, label string) {
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	exPath := filepath.Dir(ex)
 	col := color.RGBA{0, 0, 0, 255}
 	point := fixed.Point26_6{X: fixed.I(x), Y: fixed.I(y)}
 
 	// load font file and typeface
-	fontBytes, _ := ioutil.ReadFile("jiret.ttf")
+	fontBytes, _ := ioutil.ReadFile(exPath + "/jiret.ttf")
 
 	f, _ := truetype.Parse(fontBytes)
 
