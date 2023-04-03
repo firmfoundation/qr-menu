@@ -65,6 +65,10 @@ func HandleCreateAccount(w http.ResponseWriter, r *http.Request) error {
 		return util.CustomeError(nil, 500, "Error: unable to authenticate.")
 	}
 
+	//send welcome email and new user registeration email to system admin
+	go util.SendWelcomeEmail(s.Email, 97854)
+	go util.SendToAdminNewAccount(s.Email)
+
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/octet-stream")
 	json.NewEncoder(w).Encode(auth.Jwt{JWT: jwt})
