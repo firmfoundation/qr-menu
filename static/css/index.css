@@ -67,6 +67,14 @@ body {
   color: #8198ae;
 }
 
+.action__text {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 400;
+  margin: 0px;
+  color: #3a9fff;
+}
+
 .product_delivery {
   text-align: center;
   margin-top: 10px;
