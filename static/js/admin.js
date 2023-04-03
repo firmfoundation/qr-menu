@@ -104,7 +104,7 @@ const menuInit = () => {
   $(div_menu_pan).addClass('div-menu-pan page-content')
   $(div_menu_pan).append(
     `
-    <button type="button" class="button-md" id="btn-create" onClick="showMenuForm();">Create Menu</button>
+    <button type="button" class="button-md" id="btn-create" onClick="showMenuForm();">Create Menu Item</button>
     `
   )
   $(".content").html(div_menu_pan)
