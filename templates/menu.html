@@ -137,25 +137,44 @@
                     }
                     c = value.category;
                     if (value.price_s == value.price_l) {
-                      $(dl).append(
-                        `
-                        <dt>${value.name}</dt>
-                        <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
-                        <dd class="description">
-                          <p>${value.description}</p>
-                        </dd>
-                        `
-                      );                    
+                       if(value.description == "" || value.description == "-") {
+                           $(dl).append(
+                              `
+                              <dt>${value.name}</dt>
+                              <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
+                              `
+                            );                    
+                       } else {
+                          $(dl).append(
+                            `
+                            <dt>${value.name}</dt>
+                            <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
+                            <dd class="description">
+                              <p>${value.description}</p>
+                            </dd>
+                            `
+                          );                    
+                       }
                     } else {
-                      $(dl).append(
-                        `
-                        <dt>${value.name}</dt>
-                        <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
-                        <dd class="description">
-                          <p>${value.description}</p>
-                        </dd>
-                        `
-                      );
+                      if(value.description == "" || value.description == "-") {
+                          $(dl).append(
+                            `
+                            <dt>${value.name}</dt>
+                            <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
+                            `
+                          );                      
+                      } else { 
+                          $(dl).append(
+                            `
+                            <dt>${value.name}</dt>
+                            <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
+                            <dd class="description">
+                              <p>${value.description}</p>
+                            </dd>
+                            `
+                          );                                            
+                      }
+
                     }
 
                 });
