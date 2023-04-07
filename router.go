@@ -46,7 +46,7 @@ func router() http.Handler {
 		// profile
 		r.Method("POST", "/admin/profiles", Handler(handles.HandleUpsertProfile))
 		r.Method("GET", "/admin/profiles", Handler(handles.HandleGetProfileByAccount))
-
+		r.Method("POST", "/admin/profiles/logos", Handler(handles.HandleProfileLogo))
 		//QR
 		r.Method("GET", "/admin/menus/qr", Handler(handles.HandleGenQR))
 	})

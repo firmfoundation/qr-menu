@@ -341,6 +341,15 @@ p.tip:before {
   margin-left: -0.75em;
 }
 
+.logo__div {
+  text-align: center;
+}
+
+.logo__img {
+  height: 150px;
+  border-radius: 50%;
+}
+
 @media only screen and (max-width: 980px) {
   address {
     text-align: left;

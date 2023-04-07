@@ -504,3 +504,18 @@ main.l-main .page-title {
   padding-left: 2px;
   padding-right: 2px;
 }
+
+.logo-input {
+  width:350px;
+  padding:20px;
+}
+
+.logo-preview {
+  height: 100px;
+  text-align: center;
+}
+
+#file-ip-1-preview {
+  height: 100px;
+  padding-bottom: 20px;
+}

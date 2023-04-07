@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
-    <title>menuchaka</title>
+    <title>Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
 </head>
@@ -13,6 +13,8 @@
   <div class="bname"></div>
 
   <div class="badd"></div>
+
+  <div class="logo__div"></div>
 
   <div class="menu"></div>
   
@@ -53,15 +55,15 @@
     </thead>
     <tbody>
       <tr>
-        <td>Mon. - Thurs. 6 a.m. - 9 p.m.</td>
+        <td class="h1"></td>
       
       </tr>
       <tr>
-        <td>Fri. - Sat. 6 a.m. - 11 p.m.</td>
+        <td class="h2"></td>
       
       </tr>
       <tr>
-        <td>Sunday 8 a.m. - 2 p.m.</td>
+        <td class="h3"></td>
       
       </tr>
     </tbody>
@@ -204,6 +206,12 @@
                     </address>
                 `
                 )
+                $(".h1").html(j.h1)
+                $(".h2").html(j.h2)
+                $(".h3").html(j.h3) 
+                if (j.logo != "") {  
+                    $(".logo__div").html(`<img class="logo__img" src="/static/img/logo/${j.logo}">`)
+                }
             }
 
             function getURL () {

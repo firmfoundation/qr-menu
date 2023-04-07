@@ -69,6 +69,7 @@ const getS = (tag) => {
 }
 
 const pProfile = () => {
+  
   $(".page-title").empty()
   $(".page-title").append("Profile")
   $(".content").empty()
@@ -521,7 +522,10 @@ const createProfile = () => {
       address: $("#m-2").val(),
       mobile: $("#m-3").val(),
       email: $("#m-4").val(),
-      full_name: $("#m-5").val()
+      full_name: $("#m-5").val(),
+      h1: $("#m-6").val(),
+      h2: $("#m-7").val(),
+      h3: $("#m-8").val()
   };
 
   $.ajax({
@@ -555,6 +559,9 @@ const updateProfile = (id) => {
       mobile: $("#m-3").val(),
       email: $("#m-4").val(),
       full_name: $("#m-5").val(),
+      h1: $("#m-6").val(),
+      h2: $("#m-7").val(),
+      h3: $("#m-8").val(),
       id
   };
 
@@ -616,7 +623,25 @@ const cProfile = async () => {
               <div class="field-wrap">
                   <input type="text" class="input-s" id="m-5" value="" required>
                   <label for="question" class="label-s">Contact person</label>
-                  <div class="invalid-feedback">field required required </div>
+                  <div class="invalid-feedback">field equired </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-6" value="Mon. - Thurs. 6 a.m. - 9 p.m." required>
+                  <label for="question" class="label-s">Working hours 1</label>
+                  <div class="invalid-feedback">field  required </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-7" value="Fri. - Sat. 6 a.m. - 11 p.m." required>
+                  <label for="question" class="label-s">Working hours 2</label>
+                  <div class="invalid-feedback">field required </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-8" value="Sunday 8 a.m. - 2 p.m." required>
+                  <label for="question" class="label-s">Working hours 3</label>
+                  <div class="invalid-feedback">field required </div>
               </div>
 
               <div class="mt-3">
@@ -660,7 +685,25 @@ const uProfile = async (a) => {
               <div class="field-wrap">
                   <input type="text" class="input-s" id="m-5" value="${a.full_name}" required>
                   <label for="question" class="label-s">Contact person</label>
-                  <div class="invalid-feedback">field required required </div>
+                  <div class="invalid-feedback">field required </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-6" value="${a.h1}" required>
+                  <label for="question" class="label-s">Working hours 1</label>
+                  <div class="invalid-feedback">field  required </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-7" value="${a.h2}" required>
+                  <label for="question" class="label-s">Working hours 2</label>
+                  <div class="invalid-feedback">field required </div>
+              </div>
+
+              <div class="field-wrap">
+                  <input type="text" class="input-s" id="m-8" value="${a.h3}" required>
+                  <label for="question" class="label-s">Working hours 3</label>
+                  <div class="invalid-feedback">field required </div>
               </div>
 
               <div class="mt-3">
@@ -669,4 +712,55 @@ const uProfile = async (a) => {
           </div>
   `)
   $('.content').html(div)
+  uploadimg()
+}
+
+const uploadimg = () => {
+   var logo = document.createElement('div');
+   $(logo).addClass('page-content')
+   $(logo).append(
+     `
+    <div class="logo-input">
+      <div class="logo-preview">
+        <img id="file-ip-1-preview">
+      </div>
+      <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+    </div>
+     `
+   )
+   $(".content").append(logo)
+}
+
+function showPreview(event){
+  if(event.target.files.length > 0){
+    var src = URL.createObjectURL(event.target.files[0]);
+    var preview = document.getElementById("file-ip-1-preview");
+    preview.src = src;
+    preview.style.display = "block";
+    u()
+  }
+}
+
+const u = () => {
+  var formData = new FormData();
+  formData.append('logo', $('#file-ip-1')[0].files[0]);
+
+  $.ajax({
+        url : '/admin/profiles/logos',
+        type : 'POST',
+        data : formData,
+        cache: false,
+        processData: false,  // tell jQuery not to process the data
+        contentType: false,  // tell jQuery not to set contentType
+        headers: {
+          "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+        },
+        success : function(data) {
+          $(".flash__body").html("Logo updated successfully!")
+          $( ".flash" ).addClass( "animate--drop-in-fade-out" );
+          setTimeout(function(){
+            $( ".flash" ).removeClass( "animate--drop-in-fade-out" );
+          }, 3500);
+        }
+  });
 }
