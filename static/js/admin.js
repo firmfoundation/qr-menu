@@ -712,22 +712,23 @@ const uProfile = async (a) => {
           </div>
   `)
   $('.content').html(div)
-  uploadimg()
+  uploadimg(a.logo)
 }
 
-const uploadimg = () => {
+const uploadimg = (l) => {
    var logo = document.createElement('div');
    $(logo).addClass('page-content')
    $(logo).append(
      `
     <div class="logo-input">
       <div class="logo-preview">
-        <img id="file-ip-1-preview">
+        <img id="file-ip-1-preview" src="/static/img/logo/${l}">
       </div>
       <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
     </div>
      `
    )
+   
    $(".content").append(logo)
 }
 
@@ -750,8 +751,8 @@ const u = () => {
         type : 'POST',
         data : formData,
         cache: false,
-        processData: false,  // tell jQuery not to process the data
-        contentType: false,  // tell jQuery not to set contentType
+        processData: false,  
+        contentType: false,  
         headers: {
           "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
         },
