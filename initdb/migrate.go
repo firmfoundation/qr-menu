@@ -14,6 +14,9 @@ func Migrate() {
 		&models.Category{},
 		&models.Menu{},
 		&models.Tracking{},
+		&models.Customer{},
+		&models.Order{},
+		&models.OrderTransaction{},
 	)
 
 	fmt.Println(" Migration complete")

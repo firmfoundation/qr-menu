@@ -49,6 +49,10 @@ func router() http.Handler {
 		r.Method("POST", "/admin/profiles/logos", Handler(handles.HandleProfileLogo))
 		//QR
 		r.Method("GET", "/admin/menus/qr", Handler(handles.HandleGenQR))
+
+		//orders
+		r.Method("GET", "/menus/orders", Handler(handles.HandleGetOrders))
+
 	})
 
 	r.Group(func(r chi.Router) {
@@ -73,6 +77,10 @@ func router() http.Handler {
 		r.Method("GET", "/admin/categories", Handler(handles.HandleGetAllCategory))
 
 		r.Method("GET", "/menus/{uid}", Handler(handles.MenuTemplate))
+		r.Method("GET", "/menus2/{uid}", Handler(handles.Menu2Template))
+
+		//order
+		r.Method("POST", "/orders", Handler(handles.HandleCreateOrder))
 
 	})
 
