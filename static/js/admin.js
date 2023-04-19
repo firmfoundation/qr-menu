@@ -56,6 +56,9 @@ const m = (a) => {
     case 2:
       pQR()
       break;
+    case 3:
+      pOrder()
+      break;
   }
 }
 
@@ -98,6 +101,41 @@ const pQR = () => {
   $(".content").empty()
 
   qrInit()
+}
+
+const pOrder = () => {
+  $(".page-title").empty()
+  $(".page-title").append("Orders")
+  $(".content").empty()
+
+  orderInit()
+  fOrder()
+}
+
+const orderInit = () => {
+  let div_menu_pan = document.createElement('div');
+  $(div_menu_pan).addClass('div-menu-pan page-content')
+  $(div_menu_pan).append(
+    `
+    <div class="select-status">
+    <select>
+      <option value="pending" selected>pending</option>
+    </select>
+    </div>
+    `
+  )
+  $(".content").html(div_menu_pan)
+}
+
+const fOrder = () => {
+  var div_main = document.createElement('div');
+  $(div_main).addClass('page-content')
+  var div_menu = document.createElement('div');
+  $(div_menu).addClass('div-menu')
+  getOrders();
+
+  $(div_main).append(div_menu)
+  $(".content").append(div_main)
 }
 
 const menuInit = () => {
@@ -169,8 +207,6 @@ const recInit = () => {
   $(".content").append(div_main)
 }
 
-
-
 const cancelMenu = () => {
   menuInit()
   recInit()
@@ -196,6 +232,27 @@ const rQr = (c) => {
     `
   )
 }
+
+const getOrders = () => {
+  let s = $('.select-status').find(":selected").val()
+  $.ajax({
+    url: `/menus/orders?status=${s}`,
+    type: 'GET',
+    contentType: 'application/json',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+    },
+    success: function (response) {
+      var json = JSON.parse(response);
+      let tag = renderOrder(json)
+      $(".div-menu").append(tag)
+    },
+    error: function (response) {
+        //console.log(response)
+    }
+  })             
+} 
 
 const getMenu = () => {
   $.ajax({
@@ -260,7 +317,7 @@ const um = (p1, p2, p3, p4, p5, p6) => {
 }
 
 const dm = (id) => {
-  console.log(id)
+  //console.log(id)
 }
 
 const clean = (str) => {
@@ -295,6 +352,49 @@ const renderMenu = (s) => {
             <th scope="col">Description</th>
             <th scope="col">Price (small)</th>
             <th scope="col">Price (large)</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>`
+  );
+  $(table).append(tbody)
+
+  
+  return table
+}
+
+const renderOrder = (s) => {
+  var tbody = document.createElement('tbody');
+  $.each(s, function( key, v ) {
+      $(tbody).append(
+          `<tr id="row-${v.id}")>
+            <td>${v.id}</td>
+            <td>${v.full_name}</td>
+            <td>${v.mobile}</td>
+            <td>${v.name}</td>
+            <td>${v.price}</td>
+            <td>${v.qty}</td>
+            <td>${v.order_note}</td>
+            <td>${v.status}</td>
+            <td>
+            <button type="button" id="b-sj" class="btn btn-warning" onClick="" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Completed</button>
+            </td>
+          </tr>`
+      )
+  });
+
+  var table = document.createElement('table');
+  $(table).addClass('table table-hover')
+  $(table).append(
+        `<thead>
+          <tr>
+            <th scope="col">Order Ref</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Menu item</th>
+            <th scope="col">Price</th>
+            <th scope="col">Qty.</th>
+            <th scope="col">Message</th>
+            <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
         </thead>`
@@ -546,7 +646,6 @@ const createProfile = () => {
         cancelMenu()
       },
       error: function (response) {
-        console.log("err ", response)
           alert("error")
       }
   })
@@ -583,7 +682,6 @@ const updateProfile = (id) => {
         cancelProfile()
       },
       error: function (response) {
-        console.log("err ", response)
           alert("error")
       }
   })

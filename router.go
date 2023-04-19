@@ -50,6 +50,9 @@ func router() http.Handler {
 		//QR
 		r.Method("GET", "/admin/menus/qr", Handler(handles.HandleGenQR))
 
+		//orders
+		r.Method("GET", "/menus/orders", Handler(handles.HandleGetOrders))
+
 	})
 
 	r.Group(func(r chi.Router) {

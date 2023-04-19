@@ -160,3 +160,48 @@ func SendToAdminNewAccount(new_email string) {
 	}
 
 }
+
+func EmailOrder() {
+	ex, err := os.Executable()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	env, e := godotenv.Read(exPath + "/app.env")
+	if e != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	// Choose auth method and set it up
+
+	auth := smtp.PlainAuth("", env["EMAIL"], env["EMAIL_PASSWORD"], "smtp.gmail.com")
+
+	// Here we do it all: connect to our server, set up a message and send it
+
+	to := []string{env["ADMIN_EMAIL"]}
+
+	msg := []byte("To: " + env["ADMIN_EMAIL"] + "\r\n" +
+		"Subject: 🤓️ You have order\r\n" +
+
+		"\r\n" +
+
+		"Hello 👋️ \r\n" +
+
+		"\r\n" +
+
+		"You have order, please check your control panel!\r\n" +
+		"\r\n" +
+
+		"🚀️ Qrchaka !")
+
+	err = smtp.SendMail("smtp.gmail.com:587", auth, env["EMAIL"], to, msg)
+
+	if err != nil {
+
+		log.Fatal(err)
+
+	}
+
+}

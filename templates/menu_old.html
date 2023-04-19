@@ -9,14 +9,6 @@
 <body>
   
 <div class="content">
-  <div class="order__content"></div>
-
-  <div class="div__nav">
-    <div class="div__order">
-    you have 
-      <span>0</span> orders
-    </div>
-  </div>
 
   <div class="bname"></div>
 
@@ -24,11 +16,9 @@
 
   <div class="logo__div"></div>
 
-  
-
   <div class="menu"></div>
   
-  <table class="table__s hours">
+  <table class="hours">
     <thead>
       <tr>
         <th colspan="2">
@@ -89,7 +79,7 @@
                const url = new URL(getURL());
                var p = url.pathname
                a = p.split("/")
-               if (a.length == 3 && a[1]=="menus2"){
+               if (a.length == 3 && a[1]=="menus"){
                   id = a[2]
                   return id
                }
@@ -152,22 +142,14 @@
                        if(value.description == "" || value.description == "-") {
                            $(dl).append(
                               `
-                              <dt>${value.name}
-                                <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                    Add
-                                 </button>
-                              </dt>
+                              <dt>${value.name}</dt>
                               <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
                               `
                             );                    
                        } else {
                           $(dl).append(
                             `
-                            <dt>${value.name}
-                              <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
-                              </button>
-                            </dt>
+                            <dt>${value.name}</dt>
                             <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
                             <dd class="description">
                               <p>${value.description}</p>
@@ -179,22 +161,14 @@
                       if(value.description == "" || value.description == "-") {
                           $(dl).append(
                             `
-                            <dt>${value.name}
-                              <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
-                              </button>                    
-                            </dt>
+                            <dt>${value.name}</dt>
                             <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
                             `
                           );                      
                       } else { 
                           $(dl).append(
                             `
-                            <dt>${value.name}
-                              <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
-                              </button>                    
-                            </dt>
+                            <dt>${value.name}</dt>
                             <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
                             <dd class="description">
                               <p>${value.description}</p>
@@ -242,179 +216,6 @@
 
             function getURL () {
               return window.location.href
-            }
-
-            const ao = (i, m, p) => {
-                let c = JSON.parse(window.localStorage.getItem('c'))
-
-                let b = {
-                      i: i,
-                      m: m,
-                      p: p,
-                      q: 1
-                }
-                if (c == null) {
-                    let a = []
-                    a.push(b)
-                    localStorage.setItem("c", JSON.stringify(a));
-                } else {
-                   let f = false
-                   $.each(c, function( k, v ) { 
-                      if (v.i == i){
-                        f = true
-                        c[k].q++
-                        localStorage.setItem("c", JSON.stringify(c));
-                      } 
-                   })
-                   if (!f) {
-                      c.push(b)
-                      localStorage.setItem("c", JSON.stringify(c));
-                   }
-                }
-                let t = window.localStorage.getItem('c')
-                o(JSON.parse(t))
-                console.log("your cart is : ", JSON.parse(t))
-            }
-
-            const o = (c) => {
-              let q = 0 
-              $.each(c, function( k, v ) { 
-               q = q + v.q
-              })
-
-              $(".div__nav").html(
-                `
-                  <div class="div__order">
-                    you have <span>${q}</span> orders
-                    <button type="button" id="b-sj" class="btn btn-primary" onClick="vo()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">View Order</button>
-                  </div>
-                  
-                `
-              ) 
-            }
-
-            const vo = () => {
-                let c = JSON.parse(window.localStorage.getItem('c'))
-                if (c == null) {
-                   alert("you don't have order ! add menu items first to order.")
-                } else {
-                   $(".div__nav").empty()
-
-                   let t = ro(c)
-                   $(".order__content").empty()
-
-                   var div = document.createElement('div');
-                   $(div).addClass('order__modal')
-                   
-                   $(div).append("<div><h3>Order detail</h3><p>If your order is ok, click finish order.</p></div>")
-                   $(div).append(t)
-                   $(div).append("<h3>Finish order</h3>")
-                   $(div).append(
-                    `
-                    <div id="left-col" class="cs-1 was-validated justify-content-center">
-                      <div class="field-wrap">
-                        <input class="input-s" type="text" id="p1" value="" required>
-                        <label class="label-s" for="m-name">Your name</label>
-                        <div class="invalid-feedback">Enter your full name </div>
-                      </div>
-                      <div class="field-wrap">
-                        <input class="input-s" type="text" id="p2" value="" required>
-                        <label class="label-s" for="m-name">Mobile</label>
-                        <div class="invalid-feedback">Enter mobile </div>
-                      </div>
-                    </div>`
-
-                   )
-                   $(div).append(`
-                     <button type="button" id="b-sj" class="btn btn-warning" onClick="so()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Send Order</button>
-                     <button type="button" id="b-sj" class="btn btn-dark" onClick="co()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Cancel</button> 
-                   `)
-                   $(".order__content").append(div)
-                }
-                
-            }
-
-            const co = () => {
-               $(".order__content").empty()
-               $(".div__nav").empty()
-               localStorage.clear()
-            }
-
-            const ro = (s) => {
-                let tbody = document.createElement('tbody');
-                let gt = 0;
-                $.each(s, function( key, v ) {
-                   let t = Number(v.q) * Number(v.p)
-                   gt = gt + t
-                    $(tbody).append(
-                        `<tr id="row-${v.i}")>
-                          <td>${v.m}</td>
-                          <td>${v.p}</td>
-                          <td>${v.q}</td>
-                          <td>${t}</td>
-                        </tr>`
-                    )
-                });
-
-                $(tbody).append(
-                        `<tr>
-                          <td></td>
-                          <td></td>
-                          <td>Total:</td>
-                          <td>${gt}</td>
-                        </tr>`
-                )
-
-
-                var table = document.createElement('table');
-                $(table).addClass('table table-hover')
-                $(table).append(
-                      `
-                        <tr>
-                          <th scope="col">Item name</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Quantity</th>
-                          <th scope="col">Total</th>
-                        </tr>
-                      `
-                );
-                $(table).append(tbody)
-
-                
-                return table
-             }
-
-            const so = () => {
-              if ($("#p1").val()=="") {
-                 alert("your full name is required for order !")
-                 return
-              }
-
-               if ($("#p2").val()=="") {
-                 alert("mobile is required for your order !")
-                 return
-              }
-
-              var payload = {
-                  full_name: $("#p1").val(),
-                  mobile: $("#p2").val(),
-                  order_note: "Your love surround me",
-                  order: JSON.parse(window.localStorage.getItem('c'))
-              };
-
-              $.ajax({
-                  url: '/orders',
-                  type: 'POST',
-                  contentType: 'application/json',
-                  data: JSON.stringify(payload),
-                  success: function (response) {
-                    co()
-                    alert("Order success")
-                  },
-                  error: function (response) {
-                      alert("error")
-                  }
-              })
             }
         </script>
 </body>
