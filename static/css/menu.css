@@ -55,7 +55,7 @@ p.name-lg {
   font-family: "Londrina Solid", Arial, Helvetica, sans-serif;
   color: #fff;
   font-weight: normal;
-  padding-top: 0.15em;
+  padding-top: 0.6em;
   text-align: center;
   line-height: 1em;
 }
@@ -362,12 +362,20 @@ p.tip:before {
 }
 
 .div__order {
-  top: 15px;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
   color: #fff;
-  width: 220px;
-  padding-top: 13px;
+  width: 250px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 5px;
   font-family: "Londrina Solid", Arial, Helvetica, sans-serif;
+  background: green;
+  border-radius: 30px;
+  text-align: center;
+  top: 10px;
+  z-index: 1;
 }
 
 .div__order span {
