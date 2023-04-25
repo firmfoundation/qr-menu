@@ -316,7 +316,7 @@ p.prices span em {
   padding: 0 0.35em;
   color: #000000;
   font-weight: bold;
-  border-radius: 100% 100% 100% 10%;
+  border-radius: 100% 100% 100% 100%;
   margin-left: 0.25em;
 }
 
@@ -363,6 +363,7 @@ p.tip:before {
   position: fixed;
   left: 50%;
   transform: translate(-50%, 0);
+  z-index: 4000;
 }
 
 .div__order {
@@ -377,6 +378,9 @@ p.tip:before {
   font-family: "Londrina Solid", Arial, Helvetica, sans-serif;
   background: green;
   border-radius: 30px;
+  border-color: #fff;
+  border-width: 2px;
+  border-style: solid;
   text-align: center;
   top: 10px;
   z-index: 1;
