@@ -84,7 +84,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
         
         <script>
-            var id;
+            let id;
+            let m;
             function getid() {
                const url = new URL(getURL());
                var p = url.pathname
@@ -154,7 +155,7 @@
                               `
                               <dt>${value.name}
                                 <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                    Add
+                                    Order
                                  </button>
                               </dt>
                               <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
@@ -165,7 +166,7 @@
                             `
                             <dt>${value.name}
                               <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
+                                Order
                               </button>
                             </dt>
                             <p class="prices"><span><em>birr ${value.price_s}</em></span></p>
@@ -181,7 +182,7 @@
                             `
                             <dt>${value.name}
                               <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
+                                Order
                               </button>                    
                             </dt>
                             <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
@@ -192,7 +193,7 @@
                             `
                             <dt>${value.name}
                               <button type="button" id="b-sj" onClick='ao("${value.id}","${value.name}","${value.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;">
-                                Add
+                                Order
                               </button>                    
                             </dt>
                             <p class="prices"><span>Small<em>birr ${value.price_s}</em></span> <span>Large<em>birr ${value.price_l}</em></span></p>
@@ -212,6 +213,7 @@
             }
 
             const rProfile = (j) => {
+              m = j.mobile;
               $(".bname").append(`<p class="name-lg">${j.business_name}</h2>`)
               $(".badd").append(
                 `
@@ -304,10 +306,13 @@
 
                    var div = document.createElement('div');
                    $(div).addClass('order__modal')
-                   
-                   $(div).append("<div><h3>Order detail</h3><p>If your order is ok, click send order.</p></div>")
+                   $(div).append(`<div class="window__header"><img class="window__close__img" src="/static/img/close.png" onClick="co()"></div>`)
+                   $(div).append("<div><h3>Order detail</h3></div>")
                    $(div).append(t)
-                   $(div).append("<h3>Finish order</h3>")
+                   $(div).append("<p>Please pay the total amount using mobile banking before you send your order. CBEbirr,telebirr or ebirr are accepted.</p>")
+                   $(div).append(`<div class="payment__logo">pay to : <h2>${m}</h2></div>`)
+                   $(div).append(`<div class="payment__logo"><img class="payment__img" src="/static/img/payment.png"></div>`)
+                   $(div).append("<h5>Finish order</h5>")
                    $(div).append(
                     `
                     <div id="left-col" class="cs-1 was-validated justify-content-center">
@@ -318,12 +323,12 @@
                       </div>
                       <div class="field-wrap">
                         <input class="input-s" type="text" id="p2" value="" required>
-                        <label class="label-s" for="m-name">Mobile</label>
-                        <div class="invalid-feedback">Enter mobile </div>
+                        <label class="label-s" for="m-name">Your Mobile</label>
+                        <div class="invalid-feedback">We check payment from this mobile </div>
                       </div>
                       <div class="field-wrap">
                         <textarea class="input-s" type="text" id="p3" value=""></textarea>
-                        <label class="label-s" for="m-name">Message (optional)</label>
+                        <label class="label-s" for="m-name">Write any thing regard to your order</label>
                         <div class="invalid-feedback">Add message to order </div>
                       </div>                      
                     </div>`
@@ -331,7 +336,7 @@
                    )
                    $(div).append(`
                      <button type="button" id="b-sj" class="btn btn-warning" onClick="so()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Send Order</button>
-                     <button type="button" id="b-sj" class="btn btn-dark" onClick="co()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Cancel</button> 
+                     <button type="button" id="b-sj" class="btn btn-danger" onClick="co()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Cancel</button> 
                    `)
                    $(".order__content").append(div)
                 }
@@ -346,6 +351,7 @@
 
             const ro = (s) => {
                 let tbody = document.createElement('tbody');
+                $(tbody).addClass('order__font')
                 let gt = 0;
                 $.each(s, function( key, v ) {
                    let t = Number(v.q) * Number(v.p)
