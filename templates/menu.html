@@ -7,10 +7,9 @@
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  
-<div class="content">
-  <div class="order__content"></div>
+<div class="order__content"></div>
 
+<div class="content">
   <div class="div__nav">
     <div class="div__order">
     you have 
@@ -99,6 +98,11 @@
 
             $(function () {
                 $( document ).ready(function() {
+                    geer()
+                });           
+            });
+
+            const geer = () => {
                     let uid = getid()
                     $.ajax({
                         //url: `/accounts/menus?account_id=${uid}`,
@@ -124,9 +128,8 @@
                         error: function (response) {
                             //console.log(response)
                         }
-                    })
-                });           
-            });
+                    })            
+            }
 
             function renderMenu(q) {
                 let c
@@ -310,7 +313,7 @@
                    $(div).append("<div><h3>Order detail</h3></div>")
                    $(div).append(t)
                    $(div).append("<p>Please pay the total amount using mobile banking before you send your order. CBEbirr,telebirr or ebirr are accepted.</p>")
-                   $(div).append(`<div class="payment__logo">pay to : <h2>${m}</h2></div>`)
+                   $(div).append(`<div class="payment__logo">pay to <h2>${m}</h2></div>`)
                    $(div).append(`<div class="payment__logo"><img class="payment__img" src="/static/img/payment.png"></div>`)
                    $(div).append("<h5>Finish order</h5>")
                    $(div).append(
@@ -338,7 +341,9 @@
                      <button type="button" id="b-sj" class="btn btn-warning" onClick="so()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Send Order</button>
                      <button type="button" id="b-sj" class="btn btn-danger" onClick="co()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Cancel</button> 
                    `)
+                  
                    $(".order__content").append(div)
+                   $("body").scrollTop(0);
                 }
                 
             }
