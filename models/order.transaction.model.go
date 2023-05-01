@@ -23,11 +23,12 @@ type OrderTransaction struct {
 }
 
 type PlaceOrder struct {
-	FullName  string         `json:"full_name"`
-	Mobile    string         `json:"mobile"`
-	Email     string         `json:"email"`
-	OrderNote string         `json:"order_note"`
-	Order     []OrderContent `json:"order"`
+	FullName    string         `json:"full_name"`
+	Mobile      string         `json:"mobile"`
+	Email       string         `json:"email"`
+	PaymentType string         `json:"payment_type"`
+	OrderNote   string         `json:"order_note"`
+	Order       []OrderContent `json:"order"`
 }
 
 type OrderContent struct {
@@ -62,8 +63,9 @@ func (p *PlaceOrder) CreateOrder(db *gorm.DB) (*Order, error) {
 
 		//tx - 2 create order
 		order := Order{
-			OrderNote:  p.OrderNote,
-			CustomerID: customer.ID,
+			OrderNote:   p.OrderNote,
+			PaymentType: p.PaymentType,
+			CustomerID:  customer.ID,
 		}
 		if err = tx.Debug().Create(&order).Error; err != nil {
 			return err

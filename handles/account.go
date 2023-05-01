@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/firmfoundation/qrmenu/initdb"
 	"github.com/firmfoundation/qrmenu/models"
@@ -244,6 +245,44 @@ func HandleAccountChangePassword(w http.ResponseWriter, r *http.Request) error {
 	s, err := account.ChangeAccountPassword(initdb.DB, jwt_token)
 	if err != nil {
 		return util.CustomeError(nil, 500, "Error: unable to create menu data.")
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	json.NewEncoder(w).Encode(s)
+
+	return nil
+}
+
+func HandleUpdateTheme(w http.ResponseWriter, r *http.Request) error {
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	id := claims["account_id"]
+
+	account_id, ok := id.(string)
+	if !ok {
+		return util.CustomeError(nil, 500, "Error: server type error.")
+	}
+
+	account_uuid, err := uuid.Parse(account_id)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: server uuid parse error.")
+	}
+
+	if r.Method != http.MethodPost {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	theme_id := r.URL.Query().Get("theme_id")
+
+	account := &models.Account{}
+	account.ID = account_uuid
+	account.Theme, _ = strconv.Atoi(theme_id)
+	s, err := account.UpdateTheme(initdb.DB)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return util.CustomeError(nil, 404, "No available theme.")
+		}
+		return util.CustomeError(nil, 500, "Error: unable to update theme.")
 	}
 
 	w.WriteHeader(http.StatusCreated)

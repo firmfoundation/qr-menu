@@ -59,7 +59,61 @@ const m = (a) => {
     case 3:
       pOrder()
       break;
+    case 4:
+      pTheme()
+      break;
   }
+}
+
+const pTheme  = () => {
+  $(".page-title").empty()
+  $(".page-title").append("Theme")
+
+  let div_menu_pan = document.createElement('div');
+  $(div_menu_pan).addClass('div-menu-pan page-content')
+  $(div_menu_pan).append(
+    `<div>
+
+      <div class="radio__layout">
+        <input type="radio" name="option" id="1" onclick="radioChange(this);" value="1">
+      </div>
+      <div class="container h-100 d-flex justify-content-center">
+        <img src="/static/img/theme_1.png" alt="" class="img-responsive" height="430px"/>
+      </div>
+
+      <div class="radio__layout">
+         <input type="radio" name="option" id="2" onclick="radioChange(this);" value="2">
+      </div>
+      <div class="container h-100 d-flex justify-content-center">
+          <img src="/static/img/theme_2.png" alt="" class="img-responsive" height="430px"/>
+      </div>
+      
+    </div>
+    `
+  )
+  $(".content").html(div_menu_pan)
+}
+
+const radioChange = (r) => {
+  $.ajax({
+    url: `/accounts/themes?theme_id=${r.value}`,
+    type: 'POST',
+    contentType: 'application/json',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+    },
+    success: function (response) {
+      $(".flash__body").html("Theme updated successfully!")
+      $( ".flash" ).addClass( "animate--drop-in-fade-out" );
+      setTimeout(function(){
+        $( ".flash" ).removeClass( "animate--drop-in-fade-out" );
+      }, 3500);
+    },
+    error: function (response) {
+        //console.log(response)
+    }
+  })             
 }
 
 const getSuccess = (tag) => {
@@ -246,6 +300,7 @@ const getOrders = () => {
     success: function (response) {
       var json = JSON.parse(response);
       let tag = renderOrder(json)
+      $(".div-menu").empty()
       $(".div-menu").append(tag)
     },
     error: function (response) {
@@ -312,8 +367,8 @@ const getProfile = () => {
     }
   })             
 } 
-const um = (p1, p2, p3, p4, p5, p6) => {
-  formMu($(".div-menu-pan"), p1, p2, p3, p4, p5, p6)
+const um = (p1, p2, p3, p4, p5, p6, p7) => {
+  formMu(p1, p2, p3, p4, p5, p6, p7)
 }
 
 const dm = (id) => {
@@ -335,7 +390,7 @@ const renderMenu = (s) => {
             <td>${v.price_s}</td>
             <td>${v.price_l}</td>
             <td>
-              <i class="bi bi-pencil-square" onClick="um('${v.id}','${v.name}', '${clean(v.description)}', '${v.price_s}','${v.price_l}', '${v.category_id}');" style="font-size: 15px; color: green;" title="edit"></i>
+              <i class="bi bi-pencil-square" onClick="um('${v.id}','${v.name}', '${clean(v.description)}', '${v.price_s}','${v.price_l}', '${v.category_id}', '${v.image}');" style="font-size: 15px; color: green;" title="edit"></i>
               <i class="bi bi-trash3" style="font-size: 15px; color: red;" title="edit"></i>
             </td>
           </tr>`
@@ -370,13 +425,11 @@ const renderOrder = (s) => {
             <td>${v.id}</td>
             <td>${v.full_name}</td>
             <td>${v.mobile}</td>
-            <td>${v.name}</td>
-            <td>${v.price}</td>
-            <td>${v.qty}</td>
-            <td>${v.order_note}</td>
+            <td>${v.payment_type}</td>
+            <td>${v.total}</td>
             <td>${v.status}</td>
             <td>
-            <button type="button" id="b-sj" class="btn btn-warning" onClick="" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Completed</button>
+            <button type="button" id="b-sj" class="btn btn-warning" onClick="o_d('${v.id}')" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">View</button>
             </td>
           </tr>`
       )
@@ -390,10 +443,8 @@ const renderOrder = (s) => {
             <th scope="col">Order Ref</th>
             <th scope="col">Customer</th>
             <th scope="col">Mobile</th>
-            <th scope="col">Menu item</th>
-            <th scope="col">Price</th>
-            <th scope="col">Qty.</th>
-            <th scope="col">Message</th>
+            <th scope="col">Payment Type</th>
+            <th scope="col">Total</th>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
@@ -403,6 +454,122 @@ const renderOrder = (s) => {
 
   
   return table
+}
+
+const o_d = (id) => {
+  $.ajax({
+    url: `/admin/orders/detail?id=${id}`,
+    type: 'GET',
+    contentType: 'application/json',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+    },
+    success: function (r) {
+      var j= JSON.parse(r);
+      vo(j)
+    },
+    error: function (response) {
+        //console.log(response)
+    }
+  })             
+} 
+
+const vo = async (j) => {
+  $(".modal__content").empty()
+  $(".modal__content").show()
+  var div = document.createElement('div');
+  $(div).addClass('order__modal order__font')
+  $(div).append(`<div class="window__header"><img class="window__close__img" src="/static/img/close.png" onClick="co()"></div>`)
+  $(div).append("<div><h3>Order detail</h3></div>")
+  $(div).append(`<div>Customer : ${j[0].full_name}</div>`)
+  $(div).append(`<div>mobile : ${j[0].mobile}</div>`)
+  $(div).append(`<div>Payment Type : ${j[0].payment_type}</div>`)
+  $(div).append(`<div>Order note : ${j[0].order_note}</div>`)
+  $(div).append(`<div>Status : ${j[0].status}</div>`)
+  $(".modal__content").append(div)
+  
+  let r = await render_order_items(j)
+  
+  $(".order__modal").append(r)
+
+  $(".order__modal").append(`
+    <button type="button" id="b-sj" class="btn btn-warning" onClick="update_o('${j[0].id}', 'confirmed')">Payment Confirmed</button>
+    <button type="button" id="b-sj" class="btn btn-danger" onClick="update_o('${j[0].id}', 'canceled')">Cancel Order</button> 
+` )
+}
+
+const update_o = (id, s) => {
+  $.ajax({
+    url: `/admin/orders/update?id=${id}&s=${s}`,
+    type: 'POST',
+    contentType: 'application/json',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+    },
+    success: function (response) {
+      getOrders()
+      $(".modal__content").hide()
+      $(".modal__content").empty()
+      $(".flash__body").html("Order updated successfully!")
+      $( ".flash" ).addClass( "animate--drop-in-fade-out" );
+      setTimeout(function(){
+        $( ".flash" ).removeClass( "animate--drop-in-fade-out" );
+      }, 3500);
+    },
+    error: function (response) {
+        //console.log(response)
+    }
+  })             
+}
+
+const co = () => {
+  $(".modal__content").hide()
+  $(".modal__content").empty()
+}
+
+const render_order_items = async (j) => {
+  let tbody = document.createElement('tbody');
+  $(tbody).addClass('order__font')
+  let gt = 0;
+  $.each(j, function( key, v ) {
+     let t = Number(v.price) * Number(v.qty)
+     gt = gt + t
+      $(tbody).append(
+          `<tr id="row-${v.i}")>
+            <td>${v.name}</td>
+            <td>${v.price}</td>
+            <td>${v.qty}</td>
+            <td>${t}</td>
+          </tr>`
+      )
+  });
+
+  $(tbody).append(
+          `<tr>
+            <td></td>
+            <td></td>
+            <td>Total:</td>
+            <td>${gt}</td>
+          </tr>`
+  )
+
+
+  var table = document.createElement('table');
+  $(table).addClass('table table-hover')
+  $(table).append(
+        `
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+          </tr>
+        `
+  );
+  $(table).append(tbody)
+  return table  
 }
 
 const formMenu = async () => {
@@ -455,9 +622,12 @@ const formMenu = async () => {
   }
 }
 
-const formMu = async (tag, p1, p2, p3, p4, p5, p6) => {
-  $(tag).empty();
-  $(tag).append(`
+const formMu = async (p1, p2, p3, p4, p5, p6, p7) => {
+  $('.content').empty();
+  var i = document.createElement('div');
+  $(i).addClass('page-content')
+ 
+  $(i).append(`
           <h5 class="card-title mb-3">Update menu item</h5>
           <div id="left-col" class="cs-1 was-validated justify-content-center">
               <div class="field-wrap">
@@ -494,12 +664,16 @@ const formMu = async (tag, p1, p2, p3, p4, p5, p6) => {
               </div>            
           </div>
   `)
+  $('.content').append(i)
+
   let res = await getCategory();
   if(res != "") {
     var json = JSON.parse(res);
     listCategory(json)
     $('.list-menu').val(p6);
   }
+
+  uploadMenuImg(p1,p7)
 }
 
 const getCategory = async () => {
@@ -840,12 +1014,63 @@ function showPreview(event){
   }
 }
 
+
+const uploadMenuImg = (menu_id, l) => {
+  var i = document.createElement('div');
+  $(i).addClass('page-content')
+  $(i).append(
+    `
+   <div class="logo-input">
+     <div class="logo-preview">
+       <img id="file-ip-1-preview" src="/static/img/menu/${l}">
+     </div>
+     <input type="file" id="file-ip-1" accept="image/*" onchange="showPreviewMenuImage(event,'${menu_id}');">
+   </div>
+    `
+  )
+  $('.content').append(i);
+}
+
+function showPreviewMenuImage(event,menu_id){
+ if(event.target.files.length > 0){
+   var src = URL.createObjectURL(event.target.files[0]);
+   var preview = document.getElementById("file-ip-1-preview");
+   preview.src = src;
+   preview.style.display = "block";
+   umi(menu_id)
+ }
+}
+
 const u = () => {
   var formData = new FormData();
   formData.append('logo', $('#file-ip-1')[0].files[0]);
 
   $.ajax({
         url : '/admin/profiles/logos',
+        type : 'POST',
+        data : formData,
+        cache: false,
+        processData: false,  
+        contentType: false,  
+        headers: {
+          "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+        },
+        success : function(data) {
+          $(".flash__body").html("Logo updated successfully!")
+          $( ".flash" ).addClass( "animate--drop-in-fade-out" );
+          setTimeout(function(){
+            $( ".flash" ).removeClass( "animate--drop-in-fade-out" );
+          }, 3500);
+        }
+  });
+}
+
+const umi = (menu_id) => {
+  var formData = new FormData();
+  formData.append('img', $('#file-ip-1')[0].files[0]);
+
+  $.ajax({
+        url : `/admin/menus/images?menu_id=${menu_id}`,
         type : 'POST',
         data : formData,
         cache: false,

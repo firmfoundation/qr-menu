@@ -1,6 +1,7 @@
 $(function () {
                
     $( document ).ready(function() {
+        $(".modal__content").hide()
         $('.root').empty()
         let jwt_token = window.localStorage.getItem('jwt_token');
         if (jwt_token==null) {

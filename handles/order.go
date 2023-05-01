@@ -9,6 +9,7 @@ import (
 	"github.com/firmfoundation/qrmenu/models"
 	"github.com/firmfoundation/qrmenu/util"
 	"github.com/go-chi/jwtauth"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -61,6 +62,76 @@ func HandleGetOrders(w http.ResponseWriter, r *http.Request) error {
 			return util.CustomeError(nil, 404, "No available order.")
 		}
 		return util.CustomeError(nil, 500, "Error: unable to fetch orders.")
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	json.NewEncoder(w).Encode(s)
+
+	return nil
+}
+
+func HandleGetOrdersDetail(w http.ResponseWriter, r *http.Request) error {
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	id := claims["account_id"]
+
+	account_id, ok := id.(string)
+	if !ok {
+		return util.CustomeError(nil, 500, "Error: server type error.")
+	}
+
+	order_id := r.URL.Query().Get("id")
+
+	if r.Method != http.MethodGet {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	order := &models.Order{}
+	s, err := order.GetOrdersDetail(initdb.DB, account_id, order_id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return util.CustomeError(nil, 404, "No available order.")
+		}
+		return util.CustomeError(nil, 500, "Error: unable to fetch orders.")
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	json.NewEncoder(w).Encode(s)
+
+	return nil
+}
+
+func HandleOrderUpdate(w http.ResponseWriter, r *http.Request) error {
+	// _, claims, _ := jwtauth.FromContext(r.Context())
+	// id := claims["account_id"]
+
+	// account_id, ok := id.(string)
+	// if !ok {
+	// 	return util.CustomeError(nil, 500, "Error: server type error.")
+	// }
+
+	order_id := r.URL.Query().Get("id")
+	status := r.URL.Query().Get("s")
+
+	order_uuid, err := uuid.Parse(order_id)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: server uuid parse error.")
+	}
+
+	if r.Method != http.MethodPost {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	order := &models.Order{}
+	order.ID = order_uuid
+	order.Status = status
+	s, err := order.UpdateOrder(initdb.DB)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return util.CustomeError(nil, 404, "No available order.")
+		}
+		return util.CustomeError(nil, 500, "Error: unable to update orders.")
 	}
 
 	w.WriteHeader(http.StatusCreated)

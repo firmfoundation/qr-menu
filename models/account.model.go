@@ -45,6 +45,7 @@ type Account struct {
 	Email     string    `json:"email" gorm:"type:varchar(255);not null;unique"`
 	Password  string    `json:"password" gorm:"type:varchar(255);not null" validate:"gte=6,lte=19"`
 	QR        string    `json:"qr" gorm:"unique;default:uuid_generate_v4()"`
+	Theme     int       `json:"theme" gorm:"type:int;default:1"`
 	Status    int       `json:"status" gorm:"type:int;default:1"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -65,6 +66,16 @@ func (a *Account) GetAccountById(db *gorm.DB) (*Account, error) {
 	var err error
 	account := Account{}
 	err = db.Where("id = ?", a.ID).First(&account).Error
+	if err != nil {
+		return &Account{}, err
+	}
+	return &account, err
+}
+
+func (a *Account) GetAccountByQr(db *gorm.DB) (*Account, error) {
+	var err error
+	account := Account{}
+	err = db.Where("qr = ?", a.QR).First(&account).Error
 	if err != nil {
 		return &Account{}, err
 	}
@@ -208,4 +219,15 @@ func (a *Account) ChangeAccountPassword(db *gorm.DB, jwt_token string) (auth.Jwt
 		return auth.Jwt{}, err
 	}
 	return auth.Jwt{JWT: jwt}, nil
+}
+
+func (a *Account) UpdateTheme(db *gorm.DB) (*Account, error) {
+	var err error
+	//err = db.Debug().Save(&p).Error
+
+	err = db.Debug().Model(Account{}).Where("id = ?", a.ID).Update("theme", a.Theme).Error
+	if err != nil {
+		return &Account{}, err
+	}
+	return a, nil
 }

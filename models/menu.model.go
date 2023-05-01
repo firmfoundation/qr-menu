@@ -25,7 +25,7 @@ type Menu struct {
 
 func (m *Menu) UpsertMenu(db *gorm.DB) (*Menu, error) {
 	var err error
-	err = db.Debug().Save(&m).Error
+	err = db.Debug().Omit("image").Save(&m).Error
 	if err != nil {
 		return &Menu{}, err
 	}
@@ -54,4 +54,15 @@ func (m *Menu) GetMenuByQR(db *gorm.DB, qr string) []map[string]interface{} {
 	order by c.name`
 	db.Debug().Raw(sql, qr).Limit(100).Find(&r)
 	return r
+}
+
+func (m *Menu) UpdateMenuImage(db *gorm.DB, menu_id string) (*Menu, error) {
+	var err error
+	//err = db.Debug().Save(&p).Error
+
+	err = db.Debug().Model(Menu{}).Where("account_id = ? and id = ?", m.AccountID, menu_id).Update("image", m.Image).Error
+	if err != nil {
+		return &Menu{}, err
+	}
+	return m, nil
 }

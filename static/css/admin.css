@@ -515,6 +515,60 @@ main.l-main .page-title {
   text-align: center;
 }
 
+.modal__content {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 10%;
+  background: #ffffff;
+  width: 92%;
+  height: 75%;
+  z-index: 3000;
+  border-color: #e9ecef;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.window__header {
+  text-align: right;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+}
+
+.window__close__img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 29px;
+}
+
+.order__modal {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 25px;
+  background: #ffffff;
+  padding: 20px;
+  width: 95%;
+  border-radius: 15px;
+  z-index: 3000;
+}
+
+.order__modal p {
+  color: #1ab188;
+}
+
+.order__font {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}
+
+.radio__layout {
+  margin: 10px;
+  font-size: 20px;
+}
+
 #file-ip-1-preview {
   height: 100px;
   padding-bottom: 20px;

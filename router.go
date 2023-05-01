@@ -39,9 +39,11 @@ func router() http.Handler {
 		r.Method("GET", "/dashboard", Handler(handles.HandleAdminTemplate))
 		r.Method("GET", "/accounts/menus", Handler(handles.HandleGetMenuByAccountId))
 		r.Method("POST", "/accounts/changepasswords/change", Handler(handles.HandleAccountChangePassword))
+		r.Method("POST", "/accounts/themes", Handler(handles.HandleUpdateTheme))
 
 		//create menu
 		r.Method("POST", "/admin/menus", Handler(handles.HandleUpsertMenu))
+		r.Method("POST", "/admin/menus/images", Handler(handles.HandleMenuImage))
 
 		// profile
 		r.Method("POST", "/admin/profiles", Handler(handles.HandleUpsertProfile))
@@ -52,6 +54,8 @@ func router() http.Handler {
 
 		//orders
 		r.Method("GET", "/menus/orders", Handler(handles.HandleGetOrders))
+		r.Method("GET", "/admin/orders/detail", Handler(handles.HandleGetOrdersDetail))
+		r.Method("POST", "/admin/orders/update", Handler(handles.HandleOrderUpdate))
 
 	})
 
@@ -76,8 +80,10 @@ func router() http.Handler {
 		r.Method("POST", "/admin/categories", Handler(handles.HandleCreateCategory))
 		r.Method("GET", "/admin/categories", Handler(handles.HandleGetAllCategory))
 
-		r.Method("GET", "/menus/{uid}", Handler(handles.MenuTemplate))
-		r.Method("GET", "/menus2/{uid}", Handler(handles.Menu2Template))
+		r.Method("GET", "/menus/{uid}", Handler(handles.ThemeTemplate))
+
+		//for testing new theme
+		//r.Method("GET", "/menus2/{uid}", Handler(handles.Menu2Template))
 
 		//order
 		r.Method("POST", "/orders", Handler(handles.HandleCreateOrder))
