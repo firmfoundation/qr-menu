@@ -5,6 +5,30 @@ body {
   background: #ddd;
 }
 
+h2 {
+  font-family: "Londrina Solid", Arial, Helvetica, sans-serif;
+  color: #666;
+  font-weight: normal;
+  margin: 0 0 0 -1.25em;
+  padding: 0 0.5em 0.15em 1.2em;
+  border-bottom: 0.1em solid #f60;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    90deg,
+    transparent,
+    #f60 10%,
+    #f60 90%,
+    #ffffff00
+  );
+  color: #ff9800;
+  width: calc(100% + 0.75em);
+}
+
+h2:before {
+  content: "\2605";
+  margin: 0 0.25em 0 -1.1em;
+}
+
 .badd {
   font-size: 1.8em;
   font-weight: bold;
@@ -135,6 +159,17 @@ p.name-lg {
   -webkit-backface-visibility: hidden;
   pointer-events: none;
   font-size: 17px;
+}
+
+.select-s {
+  font-size: 20px;
+  width: 100%;
+  height: 50px;
+  background: none;
+  background-image: none;
+  border: 1px solid #a0b3b0;
+  color: #000;
+  border-radius: 2px;
 }
 
 .input-s {

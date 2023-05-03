@@ -279,7 +279,7 @@
               ) 
             }
 
-            const vo = () => {
+            const vok = () => {
                 let c = JSON.parse(window.localStorage.getItem('c'))
                 if (c == null) {
                    alert("you don't have order ! add menu items first to order.")
@@ -305,14 +305,13 @@
                    $(div).append(`<p>Please first transfer <span> birr ${gt}</span> using mobile banking before you send your order.</p>`)
                      $(div).append(
                       `
-                      <div class="field-wrap">
-                        <select class="input-s mb-type">
+                      <div class="field-wrap payment__logo">
+                        <select class="select-s">
                           <option value="" selected>Select...</option>
                           <option value="cbe-birr">CBE-Birr</option>
                           <option value="tele-birr">Tele-Birr</option>
                           <option value="e-birr">E-Birr</option>
                         </select>
-                        <label class="label-s" for="m-name">Select your mobile banking</label>
                       </div>
                       `
                   )
@@ -355,6 +354,66 @@
                    $(".shell").hide();
                 }
                 
+            }
+
+            const vo = () => {
+                let c = JSON.parse(window.localStorage.getItem('c'))
+                if (c == null) {
+                   alert("you don't have order ! add menu items first to order.")
+                } else {
+                   $(".div__nav").empty()
+
+                   let t = ro(c)
+                   $(".order__content").empty()
+
+                   var div = document.createElement('div');
+                   $(div).addClass('order__modal order__font')
+                   $(div).append(`<div class="window__header"><img class="window__close__img" src="/static/img/close.png" onClick="co()"></div>`)
+                   $(div).append("<div><h3>Order detail</h3></div>")
+                   $(div).append(t)
+                   $(div).append("<p>Please pay the total amount using mobile banking before you send your order. CBEbirr,telebirr or ebirr are accepted.</p>")
+                   $(div).append(`<div class="payment__logo">pay to <h2>${m}</h2></div>`)
+                   $(div).append(`<div class="payment__logo"><img class="payment__img" src="/static/img/payment.png"></div>`)
+                   $(div).append("<h5>Finish order</h5>")
+                   $(div).append(
+                    `
+                    <div id="left-col" class="cs-1 was-validated justify-content-center">
+                      <div class="field-wrap">
+                        <input class="input-s" type="text" id="p1" value="" required>
+                        <label class="label-s" for="m-name">Your name</label>
+                        <div class="invalid-feedback">Enter your name </div>
+                      </div>
+                      <div class="field-wrap">
+                        <input class="input-s" type="text" id="p2" value="" required>
+                        <label class="label-s" for="m-name">Your Mobile</label>
+                        <div class="invalid-feedback">Enter your mobile </div>
+                      </div>
+                      <div class="field-wrap">
+                        <select class="select-s">
+                          <option value="" selected>Select...</option>
+                          <option value="cbe-birr">CBE-Birr</option>
+                          <option value="tele-birr">Tele-Birr</option>
+                          <option value="e-birr">E-Birr</option>
+                        </select>
+                        <div class="invalid-feedback">select mobile banking </div>
+                      </div>
+                      <div class="field-wrap">
+                        <textarea class="input-s" type="text" id="p3" value=""></textarea>
+                        <label class="label-s" for="m-name">Write any thing regard to your order</label>
+                        <div class="invalid-feedback">Add message to order </div>
+                      </div>                      
+                    </div>`
+
+                   )
+                   $(div).append(`
+                     <button type="button" id="b-sj" class="btn btn-warning" onClick="so()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Send Order</button>
+                     <button type="button" id="b-sj" class="btn btn-danger" onClick="co()" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">Cancel</button> 
+                   `)
+                  
+                   $(".order__content").append(div)
+                   $(".container").hide();
+                   $(".shell").hide();
+                }  
             }
 
             const co = () => {
@@ -411,13 +470,7 @@
              }
 
             const so = () => {
-              let p_t = $('.mb-type').find(":selected").val()
-
-              if (p_t == "") {
-                  alert("select your mobile banking!")
-                  return
-              }
-
+              
               if ($("#p1").val()=="") {
                  alert("your full name is required for order !")
                  return
@@ -428,9 +481,11 @@
                  return
               }
 
-              if ($("#p2").val()=="") {
-                 alert("mobile is required for your order !")
-                 return
+              let p_t = $('.select-s').find(":selected").val()
+
+              if (p_t == "") {
+                  alert("select your mobile banking!")
+                  return
               }
 
               var payload = {

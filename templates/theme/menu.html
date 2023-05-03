@@ -321,12 +321,21 @@
                       <div class="field-wrap">
                         <input class="input-s" type="text" id="p1" value="" required>
                         <label class="label-s" for="m-name">Your name</label>
-                        <div class="invalid-feedback">Enter your full name </div>
+                        <div class="invalid-feedback">Enter your name </div>
                       </div>
                       <div class="field-wrap">
                         <input class="input-s" type="text" id="p2" value="" required>
                         <label class="label-s" for="m-name">Your Mobile</label>
-                        <div class="invalid-feedback">We check payment from this mobile </div>
+                        <div class="invalid-feedback">Enter your mobile </div>
+                      </div>
+                      <div class="field-wrap">
+                        <select class="select-s">
+                          <option value="" selected>Select...</option>
+                          <option value="cbe-birr">CBE-Birr</option>
+                          <option value="tele-birr">Tele-Birr</option>
+                          <option value="e-birr">E-Birr</option>
+                        </select>
+                        <div class="invalid-feedback">select mobile banking </div>
                       </div>
                       <div class="field-wrap">
                         <textarea class="input-s" type="text" id="p3" value=""></textarea>
@@ -342,12 +351,13 @@
                    `)
                   
                    $(".order__content").append(div)
-                   $("body").scrollTop(0);
+                   $(".content").hide();
                 }
                 
             }
 
             const co = () => {
+                $(".content").show();
                $(".order__content").empty()
                $(".div__nav").empty()
                localStorage.clear()
@@ -399,6 +409,12 @@
              }
 
             const so = () => {
+              let p_t = $('.select-s').find(":selected").val()
+
+              if (p_t == "") {
+                  alert("select your mobile banking!")
+                  return
+              }
               if ($("#p1").val()=="") {
                  alert("your full name is required for order !")
                  return
@@ -412,6 +428,7 @@
               var payload = {
                   full_name: $("#p1").val(),
                   mobile: $("#p2").val(),
+                  payment_type: p_t,
                   order_note: $("#p3").val(),
                   order: JSON.parse(window.localStorage.getItem('c'))
               };
@@ -423,7 +440,7 @@
                   data: JSON.stringify(payload),
                   success: function (response) {
                     co()
-                    alert("Order success")
+                    alert("your order is successfully placed !")
                   },
                   error: function (response) {
                       alert("error")
