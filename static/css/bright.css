@@ -233,7 +233,7 @@ p.name-lg {
   text-align: center;
   font-size: 12px;
   font-weight: bold;
-  padding: 5px;
+  padding: 5px 5px 25px 5px;
   margin-bottom: 25px;
   position: relative;
   transition: all 0.2s ease-in-out;
@@ -272,7 +272,21 @@ p.name-lg {
 .wsk-cp-text .title-product h3 {
   font-size: 24px;
   font-weight: bold;
-  margin: 15px auto;
+  margin: 5px auto;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.wsk-cp-text .title-product-2 {
+  text-align: center;
+}
+.wsk-cp-text .title-product-2 h3 {
+  color: #6c757d;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-right: auto;
+  margin-bottom: 10px;
+  margin-left: auto;
   text-overflow: ellipsis;
   width: 100%;
 }
