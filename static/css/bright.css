@@ -65,6 +65,16 @@ p.name-lg {
   font-size: 28px;
 }
 
+.cat__div .btn-light{
+  background-color: #9f86c0;
+  color: #fff;
+}
+
+.cat__div .btn-light span{
+  background-color: #fff;
+  color: #9f86c0;
+}
+
 .cat__div span{
   font-size: 18px;
 }
