@@ -48,3 +48,18 @@ func HandleGetAllCategory(w http.ResponseWriter, r *http.Request) error {
 	json.NewEncoder(w).Encode(result)
 	return nil
 }
+
+func HandleGetCategoryByQR(w http.ResponseWriter, r *http.Request) error {
+	if r.Method != http.MethodGet {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	qr := r.URL.Query().Get("qr")
+	menu := &models.Category{}
+	result := menu.GetCategoryByQR(initdb.DB, qr)
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+	return nil
+}

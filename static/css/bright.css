@@ -56,6 +56,19 @@ p.name-lg {
   text-align: center;
 }
 
+.cat__div {
+  margin-top: 20px;
+}
+
+.cat__div button {
+  margin-top: 10px;
+  font-size: 28px;
+}
+
+.cat__div span{
+  font-size: 18px;
+}
+
 .logo__img {
   height: 150px;
   border-radius: 50%;

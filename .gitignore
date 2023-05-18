@@ -22,3 +22,4 @@ app.env
 pgadmin.env
 qrmenu
 qrchaka
+./static/img/menu

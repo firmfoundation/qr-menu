@@ -77,6 +77,7 @@ func router() http.Handler {
 		r.Method("GET", "/profiles/qr", Handler(handles.HandleGetProfileByQR))
 
 		//category
+		r.Method("GET", "/categories", Handler(handles.HandleGetCategoryByQR))
 		r.Method("POST", "/admin/categories", Handler(handles.HandleCreateCategory))
 		r.Method("GET", "/admin/categories", Handler(handles.HandleGetAllCategory))
 

@@ -33,3 +33,15 @@ func (q *Category) GetAllCategory(db *gorm.DB) (*[]Category, error) {
 	}
 	return &category, err
 }
+
+func (q *Category) GetCategoryByQR(db *gorm.DB, qr string) []map[string]interface{} {
+	var r []map[string]interface{}
+	sql := `select c.name as category, count(c.name) as items from menus as m
+	inner join categories as c on m.category_id=c.id
+	inner join accounts as a on m.account_id=a.id 
+	where a.qr=?
+	group by c.name
+	order by c.name`
+	db.Debug().Raw(sql, qr).Limit(100).Find(&r)
+	return r
+}

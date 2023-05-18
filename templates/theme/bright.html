@@ -23,6 +23,7 @@
 
   <div class="logo__div"></div>
   
+  <div class="cat__div"></div>
 </div>
 
 
@@ -59,6 +60,7 @@
 
             $(function () {
                 $( document ).ready(function() {
+                   
                     geer()
                 });           
             });
@@ -79,6 +81,19 @@
                             //console.log(response)
                         }
                     })
+                    $.ajax({
+                        //url: `/accounts/menus?account_id=${uid}`,
+                        url: `/categories?qr=${uid}`,
+                        type: 'GET',
+                        contentType: 'application/json',
+                        success: function (r) {
+                            var j = JSON.parse(r);
+                            renderCat(j)
+                        },
+                        error: function (response) {
+                            //console.log(response)
+                        }
+                    })                    
                     $.ajax({
                         url: `/profiles/qr?qr=${uid}`,
                         type: 'GET',
@@ -121,6 +136,96 @@
                 if (j.logo != "") {  
                     $(".logo__div").html(`<img class="logo__img" src="/static/img/logo/${j.logo}">`)
                 }
+            }
+
+            const renderCat = (m) => {
+                var cat = document.createElement('div');
+                $.each(m, function( i, v ) { 
+                  switch(i) {
+                    case 0:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-primary">
+                          ${v.category} <span class="badge text-bg-secondary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 1:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-secondary">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 2:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-success">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 3:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-danger">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 4:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-warning">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 5:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-info">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 6:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-light">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 7:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-success">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    default:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-light">
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                  } 
+
+                })
+                $('.cat__div').html(cat)
             }
 
             const renderMenu = (m) => {
