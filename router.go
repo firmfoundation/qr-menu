@@ -73,6 +73,7 @@ func router() http.Handler {
 		r.Method("POST", "/accounts/changepasswords/request", Handler(handles.HandleChangePasswordRequest))
 
 		r.Method("GET", "/accounts/menus/qr", Handler(handles.HandleGetMenuByQR))
+		r.Method("GET", "/accounts/menus/category", Handler(handles.HandleGetMenuByQRAndCat))
 		//profile
 		r.Method("GET", "/profiles/qr", Handler(handles.HandleGetProfileByQR))
 

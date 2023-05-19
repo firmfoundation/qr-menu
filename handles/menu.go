@@ -109,6 +109,23 @@ func HandleGetMenuByQR(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
+func HandleGetMenuByQRAndCat(w http.ResponseWriter, r *http.Request) error {
+	if r.Method != http.MethodGet {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	qr := r.URL.Query().Get("qr")
+	cat := r.URL.Query().Get("cat")
+
+	menu := &models.Menu{}
+	result := menu.GetMenuByQRAndCat(initdb.DB, qr, cat)
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+	return nil
+}
+
 func ThemeTemplate(w http.ResponseWriter, r *http.Request) error {
 	ex, err := os.Executable()
 

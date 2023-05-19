@@ -56,6 +56,18 @@ func (m *Menu) GetMenuByQR(db *gorm.DB, qr string) []map[string]interface{} {
 	return r
 }
 
+func (m *Menu) GetMenuByQRAndCat(db *gorm.DB, qr string, cat string) []map[string]interface{} {
+	var r []map[string]interface{}
+	sql := `select m.id, c.name as category,m.name, m.description, m.price_s, m.price_l, m.image
+	from menus as m
+	inner join categories as c on m.category_id=c.id
+	inner join accounts as a on m.account_id=a.id 
+	where a.qr=? and c.id=?
+	order by c.name`
+	db.Debug().Raw(sql, qr, cat).Limit(100).Find(&r)
+	return r
+}
+
 func (m *Menu) UpdateMenuImage(db *gorm.DB, menu_id string) (*Menu, error) {
 	var err error
 	//err = db.Debug().Save(&p).Error

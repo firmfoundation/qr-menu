@@ -3,11 +3,11 @@
 <head>
   <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
   <title>qrchaka.com</title>
-  <meta property="og:image" content="//image.prntscr.com/image/93970e70e1f045e1aff76e05469008d8.png" />
   <link href="/static/css/b.min.css" rel="stylesheet" crossorigin="anonymous">
   <link href="/static/css/bright.css?c=m" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
 <div class="order__content"></div>
 
 <div class="container text-center">
@@ -60,7 +60,6 @@
 
             $(function () {
                 $( document ).ready(function() {
-                   
                     geer()
                 });           
             });
@@ -68,7 +67,6 @@
             const geer = () => {
                     let uid = getid()
                     $.ajax({
-                        //url: `/accounts/menus?account_id=${uid}`,
                         url: `/accounts/menus/qr?qr=${uid}`,
                         type: 'GET',
                         contentType: 'application/json',
@@ -82,7 +80,6 @@
                         }
                     })
                     $.ajax({
-                        //url: `/accounts/menus?account_id=${uid}`,
                         url: `/categories?qr=${uid}`,
                         type: 'GET',
                         contentType: 'application/json',
@@ -139,13 +136,14 @@
             }
 
             const renderCat = (m) => {
+                let uid = getid()
                 var cat = document.createElement('div');
                 $.each(m, function( i, v ) { 
                   switch(i) {
                     case 0:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-primary">
+                          <button type="button" class="btn btn-primary" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-secondary">${v.items}</span>
                           </button>
                         `
@@ -154,7 +152,7 @@
                     case 1:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-info">
+                          <button type="button" class="btn btn-info" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -163,7 +161,7 @@
                     case 2:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-success">
+                          <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -172,7 +170,7 @@
                     case 3:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-danger">
+                          <button type="button" class="btn btn-danger" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -181,7 +179,7 @@
                     case 4:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-warning">
+                          <button type="button" class="btn btn-warning" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -190,7 +188,7 @@
                     case 5:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-info">
+                          <button type="button" class="btn btn-info" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -199,7 +197,7 @@
                     case 6:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-light">
+                          <button type="button" class="btn btn-light" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -208,7 +206,7 @@
                     case 7:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-success">
+                          <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -217,7 +215,7 @@
                     default:
                       $(cat).append(
                         `
-                          <button type="button" class="btn btn-light">
+                          <button type="button" class="btn btn-light" onClick='renderMenuCat("${uid}","${v.id}")';>
                           ${v.category} <span class="badge text-bg-primary">${v.items}</span>
                           </button>
                         `
@@ -228,7 +226,31 @@
                 $('.cat__div').html(cat)
             }
 
+            const renderMenuCat = (i, c) => {
+                    $.ajax({
+                        url: `/accounts/menus/category?qr=${i}&cat=${c}`,
+                        type: 'GET',
+                        contentType: 'application/json',
+                        success: function (r) {
+                            var j = JSON.parse(r);
+                             $('.hold').html(
+                              `
+                                <div class="spinner-border" role="status">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              
+                              `
+                            )
+                            renderMenu(j)
+                        },
+                        error: function (response) {
+                            //console.log(response)
+                        }
+                    })
+            }
+
             const renderMenu = (m) => {
+                $('.hold').empty()
                 let f = false
                 let s = 4
                 var row = document.createElement('div');
