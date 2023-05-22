@@ -242,7 +242,7 @@ li.box:after {
 }
 
 li.box:nth-child(1) {
-  transform: rotate(-1deg);
+  transform: rotate(0deg);
   top: 1.5em;
   position: relative;
 }
@@ -350,7 +350,7 @@ p.tip:before {
 }
 
 .logo__img {
-  height: 150px;
+  height: 180px;
   border-radius: 50%;
 }
 
@@ -510,7 +510,7 @@ p.tip:before {
   }
 
   li.box:nth-child(3) {
-    transform: rotate(-3deg);
+    transform: rotate(0deg);
     top: 0;
   }
 
