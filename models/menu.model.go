@@ -78,3 +78,12 @@ func (m *Menu) UpdateMenuImage(db *gorm.DB, menu_id string) (*Menu, error) {
 	}
 	return m, nil
 }
+
+func (m *Menu) DeleteMenu(db *gorm.DB) (*Menu, error) {
+	var err error
+	err = db.Debug().Where("account_id  = ?", m.AccountID).Delete(&m).Error
+	if err != nil {
+		return &Menu{}, err
+	}
+	return m, nil
+}

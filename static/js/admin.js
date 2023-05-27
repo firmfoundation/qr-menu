@@ -371,8 +371,34 @@ const um = (p1, p2, p3, p4, p5, p6, p7) => {
   formMu(p1, p2, p3, p4, p5, p6, p7)
 }
 
-const dm = (id) => {
-  //console.log(id)
+const dm = (i) => {
+  if (window.confirm('Are you sure you want to DELETE ?')) {
+    var payload = {
+        id: i
+    };
+
+    $.ajax({
+        url: '/admin/menus',
+        type: 'DELETE',
+        contentType: 'application/json',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": `Bearer ${window.localStorage.getItem('jwt_token')}`
+        },
+        data: JSON.stringify(payload),
+        success: function (response) {
+          $(".flash__body").html("Menu item deleted successfully!")
+          $( ".flash" ).addClass( "animate--drop-in-fade-out" );
+          setTimeout(function(){
+            $( ".flash" ).removeClass( "animate--drop-in-fade-out" );
+          }, 3500);
+          cancelMenu()
+        },
+        error: function (response) {
+            alert("Error: could not be deleted, it has order.")
+        }
+    })
+  }
 }
 
 const clean = (str) => {
@@ -391,7 +417,7 @@ const renderMenu = (s) => {
             <td>${v.price_l}</td>
             <td>
               <i class="bi bi-pencil-square" onClick="um('${v.id}','${v.name}', '${clean(v.description)}', '${v.price_s}','${v.price_l}', '${v.category_id}', '${v.image}');" style="font-size: 15px; color: green;" title="edit"></i>
-              <i class="bi bi-trash3" style="font-size: 15px; color: red;" title="edit"></i>
+              <i class="bi bi-trash3" style="font-size: 15px; color: red;" onClick="dm('${v.id}')" title="delete"></i>
             </td>
           </tr>`
       )

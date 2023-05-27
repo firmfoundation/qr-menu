@@ -44,6 +44,7 @@ func router() http.Handler {
 		//create menu
 		r.Method("POST", "/admin/menus", Handler(handles.HandleUpsertMenu))
 		r.Method("POST", "/admin/menus/images", Handler(handles.HandleMenuImage))
+		r.Method("DELETE", "/admin/menus", Handler(handles.HandleDeleteMenu))
 
 		// profile
 		r.Method("POST", "/admin/profiles", Handler(handles.HandleUpsertProfile))

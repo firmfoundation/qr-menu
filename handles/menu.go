@@ -63,6 +63,45 @@ func HandleUpsertMenu(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
+func HandleDeleteMenu(w http.ResponseWriter, r *http.Request) error {
+	/*account id parse it from jwt*/
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	id := claims["account_id"]
+
+	account_id, ok := id.(string)
+	if !ok {
+		return util.CustomeError(nil, 500, "Error: server app error.")
+	}
+
+	account_uuid, err := uuid.Parse(account_id)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: server uuid parse error.")
+	}
+
+	if r.Method != http.MethodDelete {
+		return util.CustomeError(nil, 405, "Error: Method not allowed.")
+	}
+
+	menu := &models.Menu{}
+	decoder := json.NewDecoder(r.Body)
+	err = decoder.Decode(menu)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: parsing in one or more submitted body fields.")
+	}
+	menu.AccountID = account_uuid
+
+	s, err := menu.DeleteMenu(initdb.DB)
+	if err != nil {
+		return util.CustomeError(nil, 500, "Error: unable to delete menu item.")
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	json.NewEncoder(w).Encode(s)
+
+	return nil
+}
+
 func HandleGetMenuByAccountId(w http.ResponseWriter, r *http.Request) error {
 	/*account id parse it from jwt*/
 	_, claims, _ := jwtauth.FromContext(r.Context())
