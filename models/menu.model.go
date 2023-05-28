@@ -8,6 +8,22 @@ import (
 	"gorm.io/gorm"
 )
 
+type paginate struct {
+	limit int
+	page  int
+}
+
+func newPaginate(limit int, page int) *paginate {
+	return &paginate{limit: limit, page: page}
+}
+
+func (p *paginate) paginatedResult(db *gorm.DB) *gorm.DB {
+	offset := (p.page - 1) * p.limit
+
+	return db.Offset(offset).
+		Limit(p.limit)
+}
+
 type Menu struct {
 	ID          uuid.UUID       `json:"id" gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
 	Name        string          `json:"name" gorm:"type:varchar(255);not null"`
@@ -44,27 +60,31 @@ func (m *Menu) GetMenuByAccountId(db *gorm.DB, account_id string) []map[string]i
 	return r
 }
 
-func (m *Menu) GetMenuByQR(db *gorm.DB, qr string) []map[string]interface{} {
+func (m *Menu) GetMenuByQR(db *gorm.DB, qr string, offset int, limit int) []map[string]interface{} {
 	var r []map[string]interface{}
 	sql := `select m.id, c.name as category,m.name, m.description, m.price_s, m.price_l, m.image
 	from menus as m
 	inner join categories as c on m.category_id=c.id
 	inner join accounts as a on m.account_id=a.id 
 	where a.qr=?
-	order by c.name`
-	db.Debug().Raw(sql, qr).Limit(100).Find(&r)
+	order by m.created_at desc
+	offset ?
+	limit ?`
+	db.Debug().Raw(sql, qr, offset, limit).Find(&r)
 	return r
 }
 
-func (m *Menu) GetMenuByQRAndCat(db *gorm.DB, qr string, cat string) []map[string]interface{} {
+func (m *Menu) GetMenuByQRAndCat(db *gorm.DB, qr string, cat string, offset int, limit int) []map[string]interface{} {
 	var r []map[string]interface{}
 	sql := `select m.id, c.name as category,m.name, m.description, m.price_s, m.price_l, m.image
 	from menus as m
 	inner join categories as c on m.category_id=c.id
 	inner join accounts as a on m.account_id=a.id 
 	where a.qr=? and c.id=?
-	order by c.name`
-	db.Debug().Raw(sql, qr, cat).Limit(100).Find(&r)
+	order by m.created_at desc
+	offset ?
+	limit ?`
+	db.Debug().Raw(sql, qr, cat, offset, limit).Find(&r)
 	return r
 }
 

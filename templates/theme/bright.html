@@ -35,6 +35,7 @@
       </div>
      
       <div class="hold"></div>
+      <div class="pagination__div"></div>
   </div>
 </div>
 
@@ -49,9 +50,14 @@
         <script src="/static/js/jquery-3.6.4.min.js"></script>
         <script src="/static/js/b.min.js"></script>
         <script>
+            let ofs = 0;
+            let l = 2;
             let id;
             let m;
             let gt = 0;
+            let cat;
+            let uid = getid()
+
             function getid() {
                const url = new URL(getURL());
                var p = url.pathname
@@ -80,23 +86,31 @@
                 $('.pg__div').empty()
             }
 
-            const geer = () => {
-                    pg_show()
-                    $('.hold').empty()
-                    let uid = getid()
+            const gm = (uid, ofs, l) => {
                     $.ajax({
-                        url: `/accounts/menus/qr?qr=${uid}`,
+                        url: `/accounts/menus/qr?qr=${uid}&o=${ofs}&l=${l}`,
                         type: 'GET',
                         contentType: 'application/json',
                         success: function (r) {
                             var j = JSON.parse(r);
                             pg_stop()
                             renderMenu(j)
+                            $(".pagination__div").empty()
+                            if (j != null)  pagination()
                         },
                         error: function (response) {
                             //console.log(response)
                         }
                     })
+            }
+
+            const geer = () => {
+                    $('.hold').empty()
+                    pg_show()
+                    setTimeout(function(){
+                        gm(uid, ofs, l)
+                    }, 1000);    
+                   
                     $.ajax({
                         url: `/categories?qr=${uid}`,
                         type: 'GET',
@@ -121,6 +135,44 @@
                             //console.log(response)
                         }
                     })            
+            }
+
+            const pagination = () => {
+              $(".pagination__div").html(`
+                <button type="button" onClick="loadNext()"; class="btn btn-warning" style="--bs-btn-padding-y: .35rem; margin-left:2px;font-family: sans-serif;color:#000; --bs-btn-padding-x: .65rem; --bs-btn-font-size: 1.2rem;">
+                    Load More
+                </button>  
+              `)
+            }
+
+            const pagination_cat = () => {
+              $(".pagination__div").html(`
+                <button type="button" onClick="loadNextCatItem()"; class="btn btn-warning" style="--bs-btn-padding-y: .35rem; margin-left:2px;font-family: sans-serif;color:#000; --bs-btn-padding-x: .65rem; --bs-btn-font-size: 1.2rem;">
+                    Load More
+                </button>  
+              `)
+            }
+
+            const loadNext = () => {
+                $('.pagination__div').empty()
+                $('.pagination__div').append(
+                     `<div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+                `)
+                ofs = ofs + l;
+                setTimeout(function(){
+                    gm(uid, ofs, l)
+                }, 1500);
+            }
+
+            const loadNextCatItem = () => {
+                $('.pagination__div').empty()
+                $('.pagination__div').append(
+                     `<div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+                `)
+                ofs = ofs + l;
+                setTimeout(function(){
+                    gmc(uid, cat, ofs, l)
+                }, 1500);
             }
 
             const rProfile = (j) => {
@@ -244,27 +296,37 @@
                 $('.cat__div').html(cat)
             }
 
-            const renderMenuCat = (i, c) => {
-                    $('.hold').empty()
-                    pg_show()
-
+            const gmc = (i, c, ofs, l) => {
                     $.ajax({
-                        url: `/accounts/menus/category?qr=${i}&cat=${c}`,
+                        url: `/accounts/menus/category?qr=${i}&cat=${c}&o=${ofs}&l=${l}`,
                         type: 'GET',
                         contentType: 'application/json',
                         success: function (r) {
                             var j = JSON.parse(r);
                             renderMenu(j)
+                            $(".pagination__div").empty()
+                            if (j != null)  pagination_cat()
                             pg_stop()
                         },
                         error: function (response) {
+                        alert("err")
                             //console.log(response)
                         }
                     })
             }
 
+            const renderMenuCat = (i, c) => {
+                    ofs = 0;
+                    cat = c;
+                    $('.hold').empty()
+                    pg_show()
+                    setTimeout(function(){
+                        gmc(i, c, ofs, l)
+                    }, 1000);       
+            }
+
             const renderMenu = (m) => {
-                $('.hold').empty()
+                //$('.hold').empty()
                 let f = false
                 let s = 4
                 var row = document.createElement('div');
@@ -293,8 +355,7 @@
                           <div class="category">
                             <button type="button" id="b-sj" onClick='ao("${v.id}","${v.name}","${v.price_s}")'; class="btn btn-primary" style="--bs-btn-padding-y: .25rem; margin-left:2px;font-family: sans-serif;color:#fff; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .95rem;">
                                 Order
-                              </button>  
-                            
+                            </button>  
                           </div>
                           <div class="card-footer">
                             ${ (v.price_s == v.price_l ? 

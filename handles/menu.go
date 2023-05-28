@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/firmfoundation/qrmenu/initdb"
 	"github.com/firmfoundation/qrmenu/models"
@@ -132,8 +133,11 @@ func HandleGetMenuByQR(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	qr := r.URL.Query().Get("qr")
+	offset, _ := strconv.Atoi(r.URL.Query().Get("o"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("l"))
+
 	menu := &models.Menu{}
-	result := menu.GetMenuByQR(initdb.DB, qr)
+	result := menu.GetMenuByQR(initdb.DB, qr, offset, limit)
 
 	if len(result) > 0 {
 		t := &models.Tracking{
@@ -155,9 +159,11 @@ func HandleGetMenuByQRAndCat(w http.ResponseWriter, r *http.Request) error {
 
 	qr := r.URL.Query().Get("qr")
 	cat := r.URL.Query().Get("cat")
+	offset, _ := strconv.Atoi(r.URL.Query().Get("o"))
+	limit, _ := strconv.Atoi(r.URL.Query().Get("l"))
 
 	menu := &models.Menu{}
-	result := menu.GetMenuByQRAndCat(initdb.DB, qr, cat)
+	result := menu.GetMenuByQRAndCat(initdb.DB, qr, cat, offset, limit)
 
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")

@@ -66,6 +66,11 @@ p.name-lg {
   text-align: center;
 }
 
+.pagination__div {
+  text-align: center;
+  margin: 5px;
+}
+
 .cat__header {
   margin-top: 13px;
   font-size: 25px;
@@ -429,7 +434,7 @@ a.buy-btn:focus {
 }
 @media screen and (max-width: 991px) {
   .wsk-cp-product {
-    margin: 40px auto;
+    margin: 12px auto;
   }
   .wsk-cp-product .wsk-cp-img {
     top: 0px;
