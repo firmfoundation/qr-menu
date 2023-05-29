@@ -67,7 +67,7 @@ func (m *Menu) GetMenuByQR(db *gorm.DB, qr string, offset int, limit int) []map[
 	inner join categories as c on m.category_id=c.id
 	inner join accounts as a on m.account_id=a.id 
 	where a.qr=?
-	order by m.created_at desc
+	order by c.name
 	offset ?
 	limit ?`
 	db.Debug().Raw(sql, qr, offset, limit).Find(&r)
