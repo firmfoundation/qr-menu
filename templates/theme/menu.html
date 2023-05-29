@@ -4,7 +4,7 @@
     <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
     <title>qrchaka.com</title>
     <link href="/static/css/b.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/menu.css?m=29" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="order__content"></div>
@@ -102,10 +102,12 @@
             });
 
             const geer = () => {
+                    let ofs = 0;
+                    let l = 100;
                     let uid = getid()
                     $.ajax({
                         //url: `/accounts/menus?account_id=${uid}`,
-                        url: `/accounts/menus/qr?qr=${uid}`,
+                        url: `/accounts/menus/qr?qr=${uid}&o=${ofs}&l=${l}`,
                         type: 'GET',
                         contentType: 'application/json',
                         success: function (response) {
