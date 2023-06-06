@@ -3,8 +3,8 @@
 <head>
     <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
     <title>qrchaka.com</title>
-     <link href="/static/css/bs.css?m=6" rel="stylesheet" type="text/css" />
-    <link href="/static/css/menu.css?m=6" rel="stylesheet" type="text/css" />
+     <link href="/static/css/bs.css?m=7" rel="stylesheet" type="text/css" />
+    <link href="/static/css/menu.css?m=7" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="order__content"></div>
@@ -95,7 +95,7 @@
         <script src="/static/js/b.min.js"></script>
         <script>
             let ofs = 0;
-            let l = 15;
+            let l = 30;
             let id;
             let m;
             let gt = 0;
@@ -546,7 +546,25 @@
                       $(cat).append(
                         `
                           <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
-                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 8:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-primary" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 9:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
                           </button>
                         `
                       )
@@ -555,7 +573,7 @@
                       $(cat).append(
                         `
                           <button type="button" class="btn btn-light" onClick='renderMenuCat("${uid}","${v.id}")';>
-                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
                           </button>
                         `
                       )

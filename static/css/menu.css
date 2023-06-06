@@ -350,8 +350,11 @@ p.tip:before {
 }
 
 .pagination__div {
-  text-align: center;
   margin: 5px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 4000;
 }
 
 .cat__header {
@@ -377,7 +380,7 @@ p.tip:before {
 
 .cat__div button {
   margin-top: 6px;
-  font-size: 17px;
+  font-size: 18px;
   padding: 2px 6px 2px 6px;
 }
 
