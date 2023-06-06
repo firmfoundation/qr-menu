@@ -3,8 +3,8 @@
 <head>
     <meta name="viewport" charset="UTF-8" http-equiv="Cache-control" content="width=device-width, initial-scale=1, no-cache">
     <title>qrchaka.com</title>
-    <link href="/static/css/b.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link href="/static/css/menu.css?m=29" rel="stylesheet" type="text/css" />
+     <link href="/static/css/bs.css?m=6" rel="stylesheet" type="text/css" />
+    <link href="/static/css/menu.css?m=6" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="order__content"></div>
@@ -23,67 +23,85 @@
 
   <div class="logo__div"></div>
 
-  
+  <div class="cat__header">Select Category</div>
 
-  <div class="menu"></div>
-  
-  <table class="table__s hours">
-    <thead>
-      <tr>
-        <th colspan="2">
-          <svg width="40" viewBox="0 0 800 800">
-            <g>
+  <div class="cat__div"></div>
+
+  <div class="shell">
+    <div class="container">
+        <div class="pg__div">
+            <div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+        </div>
+      
+        <div class="hold"></div>
+        <div class="pagination__div"></div>
+    </div>
+
+    <table class="table__s hours">
+      <thead>
+        <tr>
+          <th colspan="2">
+            <svg width="40" viewBox="0 0 800 800">
               <g>
                 <g>
                   <g>
                     <g>
-                      <path d="M340.261,358.231c17.896,0,33.647-8.998,43.067-22.706h70.971c16.318,0,29.548-13.219,29.548-29.537       c0-16.285-13.229-29.537-29.548-29.537h-70.981c-9.42-13.686-25.172-22.683-43.056-22.683c-0.278,0-0.533,0.089-0.8,0.089       l-64.706-91.065c-9.431-13.252-27.893-16.418-41.189-6.943c-13.297,9.442-16.418,27.871-6.976,41.201l64.761,91.11       c-2.044,5.588-3.333,11.531-3.333,17.84C288.03,334.87,311.402,358.231,340.261,358.231z"></path>
+                      <g>
+                        <path d="M340.261,358.231c17.896,0,33.647-8.998,43.067-22.706h70.971c16.318,0,29.548-13.219,29.548-29.537       c0-16.285-13.229-29.537-29.548-29.537h-70.981c-9.42-13.686-25.172-22.683-43.056-22.683c-0.278,0-0.533,0.089-0.8,0.089       l-64.706-91.065c-9.431-13.252-27.893-16.418-41.189-6.943c-13.297,9.442-16.418,27.871-6.976,41.201l64.761,91.11       c-2.044,5.588-3.333,11.531-3.333,17.84C288.03,334.87,311.402,358.231,340.261,358.231z"></path>
+                      </g>
                     </g>
                   </g>
-                </g>
-                <g>
                   <g>
                     <g>
-                      <path d="M273.034,654.322c-28.337-19.317-57.252-56.363-43.412-125.157h37.102c6.598,0,12.585-3.91,15.24-9.941       c2.622-6.099,1.4-13.119-3.099-17.962l-96.964-104.029c-3.144-3.366-7.531-5.266-12.164-5.266       c-4.599,0-8.986,1.911-12.13,5.266L60.655,501.262c-4.499,4.843-5.721,11.874-3.077,17.962       c2.655,6.031,8.631,9.941,15.196,9.941h34.824c3.021,11.742,40.246,147.407,156.86,151.361       c6.376,0.212,12.13-3.81,14.119-9.875S278.311,657.943,273.034,654.322z"></path>
+                      <g>
+                        <path d="M273.034,654.322c-28.337-19.317-57.252-56.363-43.412-125.157h37.102c6.598,0,12.585-3.91,15.24-9.941       c2.622-6.099,1.4-13.119-3.099-17.962l-96.964-104.029c-3.144-3.366-7.531-5.266-12.164-5.266       c-4.599,0-8.986,1.911-12.13,5.266L60.655,501.262c-4.499,4.843-5.721,11.874-3.077,17.962       c2.655,6.031,8.631,9.941,15.196,9.941h34.824c3.021,11.742,40.246,147.407,156.86,151.361       c6.376,0.212,12.13-3.81,14.119-9.875S278.311,657.943,273.034,654.322z"></path>
+                      </g>
                     </g>
                   </g>
-                </g>
-                <g>
                   <g>
                     <g>
-                      <path d="M340.261,0C171.271,0,34.272,136.998,34.272,305.989c0,51.142,12.708,99.252,34.891,141.62l58.33-62.584       c-6.998-18.762-11.675-38.635-13.53-59.33h26.604c10.875,0,19.684-8.798,19.684-19.695c0-10.875-8.809-19.695-19.684-19.695       h-26.527c9.476-109.594,96.942-197.072,206.537-206.547v26.549c0,10.897,8.809,19.695,19.684,19.695       c10.886,0,19.695-8.798,19.695-19.695V79.757c109.584,9.475,197.072,96.953,206.537,206.547h-26.538       c-10.875,0-19.684,8.82-19.684,19.695c0,10.897,8.809,19.695,19.684,19.695h26.538       c-9.465,109.617-96.965,197.072-206.537,206.547v-26.538c0-10.896-8.809-19.694-19.695-19.694       c-10.875,0-19.684,8.798-19.684,19.694v26.427c-3.566-0.355-7.143-0.699-10.664-1.188c-0.044,0.101-0.044,0.211-0.089,0.3       c-7.576,17.263-24.46,28.293-43.1,28.293h-10.32c-0.533,16.529,2.566,30.726,9.109,42.867       c23.96,6.032,48.91,9.586,74.736,9.586c169.002,0,306.012-136.976,306.012-306C646.272,136.998,509.263,0,340.261,0z"></path>
+                      <g>
+                        <path d="M340.261,0C171.271,0,34.272,136.998,34.272,305.989c0,51.142,12.708,99.252,34.891,141.62l58.33-62.584       c-6.998-18.762-11.675-38.635-13.53-59.33h26.604c10.875,0,19.684-8.798,19.684-19.695c0-10.875-8.809-19.695-19.684-19.695       h-26.527c9.476-109.594,96.942-197.072,206.537-206.547v26.549c0,10.897,8.809,19.695,19.684,19.695       c10.886,0,19.695-8.798,19.695-19.695V79.757c109.584,9.475,197.072,96.953,206.537,206.547h-26.538       c-10.875,0-19.684,8.82-19.684,19.695c0,10.897,8.809,19.695,19.684,19.695h26.538       c-9.465,109.617-96.965,197.072-206.537,206.547v-26.538c0-10.896-8.809-19.694-19.695-19.694       c-10.875,0-19.684,8.798-19.684,19.694v26.427c-3.566-0.355-7.143-0.699-10.664-1.188c-0.044,0.101-0.044,0.211-0.089,0.3       c-7.576,17.263-24.46,28.293-43.1,28.293h-10.32c-0.533,16.529,2.566,30.726,9.109,42.867       c23.96,6.032,48.91,9.586,74.736,9.586c169.002,0,306.012-136.976,306.012-306C646.272,136.998,509.263,0,340.261,0z"></path>
+                      </g>
                     </g>
                   </g>
                 </g>
               </g>
-            </g>
-          </svg>
-          Hours
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="h1"></td>
-      
-      </tr>
-      <tr>
-        <td class="h2"></td>
-      
-      </tr>
-      <tr>
-        <td class="h3"></td>
-      
-      </tr>
-    </tbody>
-  </table>
-
+            </svg>
+            Hours
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="h1"></td>
+        
+        </tr>
+        <tr>
+          <td class="h2"></td>
+        
+        </tr>
+        <tr>
+          <td class="h3"></td>
+        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
 </div>  
         <script src="/static/js/jquery-3.6.4.min.js"></script>
         <script src="/static/js/b.min.js"></script>
         <script>
+            let ofs = 0;
+            let l = 15;
             let id;
             let m;
+            let gt = 0;
+            let cat;
+            let uid = getid()
+
             function getid() {
                const url = new URL(getURL());
                var p = url.pathname
@@ -97,27 +115,17 @@
 
             $(function () {
                 $( document ).ready(function() {
+                    geerCat()
                     geer()
                 });           
             });
 
             const geer = () => {
-                    let ofs = 0;
-                    let l = 100;
-                    let uid = getid()
-                    $.ajax({
-                        //url: `/accounts/menus?account_id=${uid}`,
-                        url: `/accounts/menus/qr?qr=${uid}&o=${ofs}&l=${l}`,
-                        type: 'GET',
-                        contentType: 'application/json',
-                        success: function (response) {
-                            var parsedJSON = JSON.parse(response);
-                            renderMenu(parsedJSON)
-                        },
-                        error: function (response) {
-                            //console.log(response)
-                        }
-                    })
+                    pg_show()
+                    setTimeout(function(){
+                        gm(uid, ofs, l)
+                    }, 1000);    
+
                     $.ajax({
                         url: `/profiles/qr?qr=${uid}`,
                         type: 'GET',
@@ -130,6 +138,22 @@
                             //console.log(response)
                         }
                     })            
+            }
+
+            const geerCat = () => {
+                let uid = getid()
+                $.ajax({
+                      url: `/categories?qr=${uid}`,
+                      type: 'GET',
+                      contentType: 'application/json',
+                      success: function (r) {
+                          var j = JSON.parse(r);
+                          renderCat(j)
+                      },
+                      error: function (response) {
+                          //console.log(response)
+                      }
+                }) 
             }
 
             function renderMenu(q) {
@@ -213,7 +237,7 @@
                 });
                 $(li).append(dl)
                 $(ul).append(li)  
-                $(".menu").append(ul)
+                $(".hold").append(ul)
             }
 
             const rProfile = (j) => {
@@ -448,6 +472,193 @@
                       alert("error")
                   }
               })
+            }
+
+            const renderCat = (m) => {
+                let uid = getid()
+                var cat = document.createElement('div');
+                $.each(m, function( i, v ) { 
+                  switch(i) {
+                    case 0:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-primary" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 1:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-info" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 2:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 3:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-danger" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 4:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-warning" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 5:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-info" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 6:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-light" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-light">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    case 7:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-success" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                      break;
+                    default:
+                      $(cat).append(
+                        `
+                          <button type="button" class="btn btn-light" onClick='renderMenuCat("${uid}","${v.id}")';>
+                          ${v.category} <span class="badge text-bg-primary">${v.items}</span>
+                          </button>
+                        `
+                      )
+                  } 
+
+                })
+                $('.cat__div').html(cat)
+            }
+
+            const renderMenuCat = (i, c) => {
+                    ofs = 0;
+                    cat = c;
+                    $('.hold').empty()
+                    pg_show()
+                    setTimeout(function(){
+                        gmc(i, c, ofs, l)
+                    }, 1000);       
+            }
+
+            const gmc = (i, c, ofs, l) => {
+                    $.ajax({
+                        url: `/accounts/menus/category?qr=${i}&cat=${c}&o=${ofs}&l=${l}`,
+                        type: 'GET',
+                        contentType: 'application/json',
+                        success: function (r) {
+                            var j = JSON.parse(r);
+                            renderMenu(j)
+                            $(".pagination__div").empty()
+                            if (j != null)  pagination_cat()
+                            pg_stop()
+                        },
+                        error: function (response) {
+                        alert("err")
+                            //console.log(response)
+                        }
+                    })
+            }
+
+            const pagination = () => {
+              $(".pagination__div").html(`
+                <button type="button" onClick="loadNext()"; class="btn btn-warning" style="--bs-btn-padding-y: .35rem; margin-left:2px;font-family: sans-serif;color:#000; --bs-btn-padding-x: .65rem; --bs-btn-font-size: 1.2rem;">
+                    Load More
+                </button>  
+              `)
+            }
+
+            const pagination_cat = () => {
+              $(".pagination__div").html(`
+                <button type="button" onClick="loadNextCatItem()"; class="btn btn-warning" style="--bs-btn-padding-y: .35rem; margin-left:2px;font-family: sans-serif;color:#000; --bs-btn-padding-x: .65rem; --bs-btn-font-size: 1.2rem;">
+                    Load More
+                </button>  
+              `)
+            }
+
+            const loadNext = () => {
+                $('.pagination__div').empty()
+                $('.pagination__div').append(
+                     `<div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+                `)
+                ofs = ofs + l;
+                setTimeout(function(){
+                    gm(uid, ofs, l)
+                }, 1500);
+            }
+
+            const loadNextCatItem = () => {
+                $('.pagination__div').empty()
+                $('.pagination__div').append(
+                     `<div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+                `)
+                ofs = ofs + l;
+                setTimeout(function(){
+                    gmc(uid, cat, ofs, l)
+                }, 1500);
+            }
+
+            const pg_show = () => {
+                $('.pg__div').empty()
+                $('.pg__div').append(
+                     `<div class="spinner-grow text-primary text-center" id="pg" role="status"><span class="visually-hidden">Loading...</span></div>
+                `)
+            }
+
+            const pg_stop = () => {
+                $('.pg__div').empty()
+            }
+
+            const gm = (uid, ofs, l) => {
+                    $.ajax({
+                        url: `/accounts/menus/qr?qr=${uid}&o=${ofs}&l=${l}`,
+                        type: 'GET',
+                        contentType: 'application/json',
+                        success: function (r) {
+                            var j = JSON.parse(r);
+                            pg_stop()
+                            renderMenu(j)
+                            $(".pagination__div").empty()
+                            if (j != null)  pagination()
+                        },
+                        error: function (response) {
+                            //console.log(response)
+                        }
+                    })
             }
         </script>
 </body>
