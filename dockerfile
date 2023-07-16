@@ -12,7 +12,7 @@ COPY ./app.env .
 
 # Copy working dir
 COPY ./templates /app/templates
-COPY ./static /app/templates
+COPY ./static /app/static
 
 # Expose the port on which the application listens
 EXPOSE 5055
