@@ -11,4 +11,4 @@ COPY ./qrchaka .
 EXPOSE 5055
 
 # Set the command to run when the container starts
-CMD ["./5055"]
+CMD ["./qrchaka"]
