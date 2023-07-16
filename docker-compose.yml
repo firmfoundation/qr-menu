@@ -17,6 +17,26 @@ services:
     restart: always
     env_file:
       - ./pgadmin.env
+
+  redis:
+    container_name: redis
+    image: 'redis:alpine3.18'
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning
+    restart: always
+    env_file:
+      - ./redis.env
+
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+    restart: always
        
 volumes:
   postgres:
+  jenkins-data:
