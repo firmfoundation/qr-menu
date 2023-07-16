@@ -5,7 +5,7 @@ FROM golang:1.20.6
 WORKDIR /app
 
 # Copy the built application into the container
-COPY ./qrmenu .
+COPY ./qrchaka .
 
 # Expose the port on which the application listens
 EXPOSE 5055
