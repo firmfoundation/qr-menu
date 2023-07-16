@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the built application into the container
 COPY ./qrchaka .
 
+# Copy the .env
+COPY ./app.env .
+
 # Expose the port on which the application listens
 EXPOSE 5055
 
