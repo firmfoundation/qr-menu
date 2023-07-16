@@ -11,8 +11,8 @@ COPY ./qrchaka .
 COPY ./app.env .
 
 # Copy working dir
-COPY ./templates .
-COPY ./static .
+COPY ./templates /app/templates
+COPY ./static /app/templates
 
 # Expose the port on which the application listens
 EXPOSE 5055
