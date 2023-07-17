@@ -10,9 +10,16 @@ COPY ./qrchaka .
 # Copy the .env
 COPY ./app.env .
 
-# Copy working dir
+# Copy working dir except static/img 
 COPY ./templates /app/templates
-COPY ./static /app/static
+COPY ./static/css /app/static/css
+COPY ./static/icon /app/static/icon
+COPY ./static/js /app/static/js
+
+#copy working files
+COPY ./jiret.ttf /app/jiret.ttf
+COPY ./qr-template.png /app/qr-template.png
+
 
 # Expose the port on which the application listens
 EXPOSE 5055
