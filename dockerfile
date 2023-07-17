@@ -10,11 +10,9 @@ COPY ./qrchaka .
 # Copy the .env
 COPY ./app.env .
 
-# Copy working dir except static/img 
+# Copy working dir 
 COPY ./templates /app/templates
-COPY ./static/css /app/static/css
-COPY ./static/icon /app/static/icon
-COPY ./static/js /app/static/js
+COPY ./static/css /app/static
 
 #copy working files
 COPY ./jiret.ttf /app/jiret.ttf
