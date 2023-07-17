@@ -12,7 +12,7 @@ COPY ./app.env .
 
 # Copy working dir 
 COPY ./templates /app/templates
-COPY ./static/css /app/static
+COPY ./static /app/static
 
 #copy working files
 COPY ./jiret.ttf /app/jiret.ttf
