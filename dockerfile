@@ -20,6 +20,9 @@ COPY ./static/js /app/static/js
 COPY ./jiret.ttf /app/jiret.ttf
 COPY ./qr-template.png /app/qr-template.png
 
+# Qr temp directory
+RUN mkdir qr-outputs
+RUN mkdir qr-scan-outputs
 
 # Expose the port on which the application listens
 EXPOSE 5055
